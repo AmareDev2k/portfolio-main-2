@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,66 +6,65 @@
 
 @layer base {
     :root {
-        --background: 260 50% 10%;
-        --foreground: 0 0% 100%;
+        --background: 0 0% 4%;
+        --foreground: 0 0% 97%;
 
-        --card: 260 50% 12%;
-        --card-foreground: 0 0% 100%;
+        --card: 0 0% 8%;
+        --card-foreground: 0 0% 97%;
 
-        --popover: 260 50% 12%;
-        --popover-foreground: 0 0% 100%;
+        --popover: 0 0% 8%;
+        --popover-foreground: 0 0% 97%;
 
-        --primary: 320 100% 60%;
-        --primary-foreground: 0 0% 100%;
+        --primary: 23 100% 54%;
+        --primary-foreground: 0 0% 4%;
 
-        --secondary: 180 100% 50%;
-        --secondary-foreground: 260 50% 10%;
+        --secondary: 23 90% 62%;
+        --secondary-foreground: 0 0% 4%;
 
-        --muted: 260 40% 20%;
-        --muted-foreground: 260 20% 70%;
+        --muted: 0 0% 11%;
+        --muted-foreground: 0 0% 70%;
 
-        --accent: 320 100% 60%;
-        --accent-foreground: 0 0% 100%;
+        --accent: 18 95% 49%;
+        --accent-foreground: 0 0% 97%;
 
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 210 40% 98%;
 
-        --border: 320 100% 60%;
-        --input: 260 40% 20%;
-        --ring: 180 100% 50%;
+        --border: 0 0% 18%;
+        --input: 0 0% 16%;
+        --ring: 23 100% 54%;
 
-        --radius: 0rem; /* Sharp edges for retro */
+        --radius: 0.75rem;
     }
 
-    /* Force dark mode colors for everything since it's retro */
     .dark {
-        --background: 260 50% 10%;
-        --foreground: 0 0% 100%;
+        --background: 0 0% 4%;
+        --foreground: 0 0% 97%;
 
-        --card: 260 50% 12%;
-        --card-foreground: 0 0% 100%;
+        --card: 0 0% 8%;
+        --card-foreground: 0 0% 97%;
 
-        --popover: 260 50% 12%;
-        --popover-foreground: 0 0% 100%;
+        --popover: 0 0% 8%;
+        --popover-foreground: 0 0% 97%;
 
-        --primary: 320 100% 60%;
-        --primary-foreground: 0 0% 100%;
+        --primary: 23 100% 54%;
+        --primary-foreground: 0 0% 4%;
 
-        --secondary: 180 100% 50%;
-        --secondary-foreground: 260 50% 10%;
+        --secondary: 23 90% 62%;
+        --secondary-foreground: 0 0% 4%;
 
-        --muted: 260 40% 20%;
-        --muted-foreground: 260 20% 70%;
+        --muted: 0 0% 11%;
+        --muted-foreground: 0 0% 70%;
 
-        --accent: 320 100% 60%;
-        --accent-foreground: 0 0% 100%;
+        --accent: 18 95% 49%;
+        --accent-foreground: 0 0% 97%;
 
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 210 40% 98%;
 
-        --border: 320 100% 60%;
-        --input: 260 40% 20%;
-        --ring: 180 100% 50%;
+        --border: 0 0% 18%;
+        --input: 0 0% 16%;
+        --ring: 23 100% 54%;
     }
 }
 
@@ -75,75 +74,20 @@
     }
 
     body {
-        @apply bg-background text-foreground font-retro;
+        @apply bg-background text-foreground;
+        font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         position: relative;
+        min-height: 100dvh;
+    }
+
+    html {
+        scroll-behavior: smooth;
     }
 }
 
-/* CRT Scanline Effect */
-.crt-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 2px, 3px 100%;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.8;
-}
-
-/* CRT Flicker */
-@keyframes flicker {
-    0% { opacity: 0.95; }
-    5% { opacity: 0.85; }
-    10% { opacity: 0.95; }
-    15% { opacity: 1; }
-    100% { opacity: 1; }
-}
-
-.crt-flicker {
-    animation: flicker 0.15s infinite;
-}
-
-/* Perspective Grid Background */
-.retro-grid {
-    position: absolute;
-    bottom: 0;
-    left: -50%;
-    width: 200%;
-    height: 100%;
-    background-image: 
-        linear-gradient(to right, theme('colors.primary.DEFAULT') 1px, transparent 1px),
-        linear-gradient(to top, theme('colors.primary.DEFAULT') 1px, transparent 1px);
-    background-size: 50px 50px;
-    background-position: center bottom;
-    transform: perspective(500px) rotateX(60deg);
-    transform-origin: bottom center;
-    opacity: 0.2;
-    z-index: 0;
-    animation: gridMove 5s linear infinite;
-}
-
-@keyframes gridMove {
-    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-}
-
-/* Neon Text Glow utilities */
-.neon-text-primary {
-    text-shadow: 0 0 5px theme('colors.primary.DEFAULT'), 0 0 10px theme('colors.primary.DEFAULT'), 0 0 20px theme('colors.primary.DEFAULT');
-}
-
-.neon-text-secondary {
-    text-shadow: 0 0 5px theme('colors.secondary.DEFAULT'), 0 0 10px theme('colors.secondary.DEFAULT'), 0 0 20px theme('colors.secondary.DEFAULT');
-}
-
-.neon-box-primary {
-    box-shadow: 0 0 10px theme('colors.primary.DEFAULT'), inset 0 0 10px theme('colors.primary.DEFAULT');
-}
-
-.neon-box-secondary {
-    box-shadow: 0 0 10px theme('colors.secondary.DEFAULT'), inset 0 0 10px theme('colors.secondary.DEFAULT');
+.site-shell {
+    background:
+        radial-gradient(circle at 18% 8%, rgba(255, 106, 0, 0.2), transparent 24%),
+        radial-gradient(circle at 86% 24%, rgba(255, 106, 0, 0.18), transparent 26%),
+        #090909;
 }
