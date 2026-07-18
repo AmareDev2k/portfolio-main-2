@@ -1,229 +1,297 @@
-# Aravinda's Portfolio Website
+<div align="center">
 
-A modern, responsive portfolio website built with React and Tailwind CSS, showcasing projects, skills, and providing ways to connect.
+# ✦ ARAVINDA AMARASINGHA ✦
+### Full-Stack Developer · Creative Builder · Open Source Enthusiast
 
-## 🎨 Features
+[![Portfolio](https://img.shields.io/badge/🌐_Live_Portfolio-000000?style=for-the-badge&logoColor=white)](https://aravinda-amarasingha.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AmareDev2k)
 
-- **Modern Design**: Dark theme with glassmorphism effects and smooth animations
-- **Responsive Layout**: Fully mobile-responsive design with hamburger menu
-- **Project Showcase**: Display your projects with descriptions and technologies
-- **Skills Section**: Organized skill categories for easy browsing
-- **Contact Form**: Integrated contact form with backend support
-- **Social Links**: Quick links to GitHub, LinkedIn, and email
-- **Smooth Scrolling**: Navigation with smooth scroll behavior
-- **Animations**: Subtle hover effects and transitions
+---
+
+```
+██████╗  ██████╗ ██████╗ ████████╗███████╗ ██████╗ ██╗     ██╗ ██████╗
+██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝██╔═══██╗██║     ██║██╔═══██╗
+██████╔╝██║   ██║██████╔╝   ██║   █████╗  ██║   ██║██║     ██║██║   ██║
+██╔═══╝ ██║   ██║██╔══██╗   ██║   ██╔══╝  ██║   ██║██║     ██║██║   ██║
+██║     ╚██████╔╝██║  ██║   ██║   ██║     ╚██████╔╝███████╗██║╚██████╔╝
+╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝
+```
+
+</div>
+
+---
+
+## 🎯 What Is This?
+
+> A **sleek, modern, full-stack portfolio website** built to make an impression. Dark glassmorphism aesthetic, buttery-smooth animations, a contact form backed by a real API — this isn't your average portfolio template.
+
+Built with **React** on the front, **FastAPI** on the back, and **MongoDB** in the middle. Deployed and live. ⚡
+
+---
+
+## ✨ Highlights
+
+| Feature | Description |
+|---|---|
+| 🌑 **Dark Glassmorphism** | Deep black theme with frosted-glass UI elements |
+| 📱 **Fully Responsive** | Looks great on phones, tablets, and desktops |
+| 🎨 **Project Showcase** | Card-based layout for projects with tech tags |
+| 🧠 **Skills Grid** | Organized categories for easy scanning |
+| 📬 **Live Contact Form** | Messages go to a real MongoDB database via FastAPI |
+| 🔗 **Social Links** | GitHub, LinkedIn, and email all wired up |
+| 🎞️ **Animations** | Smooth transitions, hover effects, scroll behavior |
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+### Frontend
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+
+### Backend
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+### Tooling & Deploy
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Yarn](https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)
+![Radix UI](https://img.shields.io/badge/Radix_UI-161618?style=for-the-badge&logo=radix-ui&logoColor=white)
+
+</div>
+
+---
 
 ## 📁 Project Structure
 
 ```
-.
-├── frontend/                 # React frontend
-│   ├── src/
-│   │   ├── pages/
-│   │   │   └── Home.jsx     # Main portfolio page
-│   │   ├── components/
-│   │   │   ├── ContactForm.jsx
-│   │   │   └── ui/          # UI components (buttons, cards, etc.)
-│   │   ├── App.js
-│   │   └── mock.js          # Mock data (projects, skills, personal info)
-│   └── package.json
+portfolio-main-2/
+├── 📂 src/
+│   ├── 📂 pages/
+│   │   └── Home.jsx           # Main portfolio page
+│   ├── 📂 components/
+│   │   ├── ContactForm.jsx    # Contact form component
+│   │   └── ui/                # Reusable UI components
+│   ├── App.js
+│   └── mock.js                # 👈 Edit this to customize content
 │
-├── backend/                  # FastAPI backend
-│   ├── server.py            # Main server with contact form endpoint
+├── 📂 backend/
+│   ├── server.py              # FastAPI server + contact endpoint
 │   └── requirements.txt
 │
-└── README.md
+├── 📂 assets/                 # Images & static files
+├── 📂 public/
+├── .env                       # Environment variables
+├── tailwind.config.js
+└── package.json
 ```
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- Python (v3.8 or higher)
-- MongoDB (for storing contact messages)
 
-### Frontend Setup
+- **Node.js** v14+
+- **Python** v3.8+
+- **MongoDB** (local or Atlas)
+- **Yarn** (recommended) or npm
 
-1. Navigate to the frontend directory:
+---
+
+### ⚡ Frontend
+
 ```bash
-cd frontend
-```
+# 1. Clone the repo
+git clone https://github.com/AmareDev2k/portfolio-main-2.git
+cd portfolio-main-2
 
-2. Install dependencies:
-```bash
-npm install
-# or
+# 2. Install dependencies
 yarn install
-```
 
-3. Start the development server:
-```bash
-npm start
-# or
+# 3. Start dev server
 yarn start
 ```
 
-The frontend will be available at `http://localhost:3000`
+> 🟢 Runs at `http://localhost:3000`
 
-### Backend Setup
+---
 
-1. Navigate to the backend directory:
+### 🐍 Backend
+
 ```bash
+# 1. Go to backend folder
 cd backend
-```
 
-2. Install dependencies:
-```bash
+# 2. Install Python dependencies
 pip install -r requirements.txt
+
+# 3. Set up environment
+cp .env.example .env
+# Then fill in your values 👇
 ```
 
-3. Create a `.env` file with your MongoDB connection:
+**.env**
 ```env
-MONGO_URL=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority
+MONGO_URL=mongodb+srv://user:password@cluster.mongodb.net/?retryWrites=true&w=majority
 DB_NAME=portfolio
 CORS_ORIGINS=http://localhost:3000
 ```
 
-4. Start the server:
 ```bash
-python server.py
-# or use uvicorn directly
+# 4. Start the server
 uvicorn server:app --reload
 ```
 
-The backend will be available at `http://localhost:8000`
+> 🟢 API runs at `http://localhost:8000`
 
-## 🎯 Customization
+---
 
-### Update Your Personal Information
+## 🎨 Make It Yours
 
-Edit `src/mock.js` to add your information:
+All personal content lives in **`src/mock.js`** — just edit and you're done.
 
-```javascript
+```js
+// 👤 Your Info
 export const personalInfo = {
   name: "Your Name",
   title: "Your Title",
   tagline: "Your tagline",
-  about: "Your about section",
-  email: "your.email@example.com",
+  about: "Tell your story here.",
+  email: "you@example.com",
   github: "https://github.com/yourusername",
   linkedin: "https://linkedin.com/in/yourusername"
 };
-```
 
-### Add Your Projects
-
-Update the `projects` array in `src/mock.js`:
-
-```javascript
+// 🗂️ Projects
 export const projects = [
   {
     id: 1,
-    title: "Project Name",
-    description: "Project description",
-    technologies: ["Tech1", "Tech2"],
-    category: "Category",
-    link: "https://project-link.com"
-  },
-  // Add more projects...
+    title: "Awesome Project",
+    description: "What it does and why it's cool.",
+    technologies: ["React", "Node.js", "MongoDB"],
+    category: "Full Stack",
+    link: "https://your-project.com"
+  }
 ];
-```
 
-### Update Skills
-
-Modify the `skills` array in `src/mock.js`:
-
-```javascript
+// 🧠 Skills
 export const skills = [
   {
-    category: "Category Name",
-    items: ["Skill1", "Skill2", "Skill3"]
+    category: "Frontend",
+    items: ["React", "Tailwind CSS", "TypeScript"]
   },
-  // Add more skill categories...
+  {
+    category: "Backend",
+    items: ["FastAPI", "Node.js", "MongoDB"]
+  }
 ];
 ```
-
-## 🛠️ Technologies Used
-
-### Frontend
-- **React** - UI library
-- **React Router** - Navigation
-- **Tailwind CSS** - Styling
-- **Radix UI** - Component library
-- **Lucide React** - Icons
-- **Craco** - Create React App configuration override
-
-### Backend
-- **FastAPI** - Web framework
-- **Motor** - Async MongoDB driver
-- **Pydantic** - Data validation
-- **Python-dotenv** - Environment variables
-
-## 📧 Contact Form
-
-The contact form sends messages to your MongoDB database. Messages are stored with:
-- Name
-- Email
-- Subject
-- Message
-- Timestamp
-- Unique ID
-
-Messages are logged to console for monitoring.
-
-## 📱 Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers
-
-## 🎨 Color Scheme
-
-- **Primary Background**: `#0a0a0a` (Deep black)
-- **Secondary Background**: `rgba(255, 255, 255, 0.05)` (Subtle white)
-- **Text**: White and gray shades
-- **Accent**: Pure white for buttons
-
-## 🔧 Available Scripts
-
-### Frontend
-- `npm start` - Start development server
-- `npm build` - Build for production
-- `npm test` - Run tests
-- `npm eject` - Eject from Create React App
-
-### Backend
-- `python server.py` - Start the server
-- `uvicorn server:app --reload` - Start with auto-reload
-
-## 📦 Deployment
-
-### Frontend (Vercel/Netlify)
-1. Push to GitHub
-2. Connect repository to Vercel/Netlify
-3. Set build command: `npm run build`
-4. Set public directory: `build`
-
-### Backend (Heroku/Railway/Render)
-1. Push to GitHub
-2. Connect repository to your hosting platform
-3. Set Python version: 3.9+
-4. Set environment variables (MONGO_URL, DB_NAME, CORS_ORIGINS)
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-
-Feel free to fork this project and customize it for your own portfolio!
-
-## 📞 Contact
-
-For questions or suggestions, reach out through the contact form or email.
 
 ---
 
-**Last Updated**: January 2025
+## 📬 Contact Form — How It Works
+
+When someone submits the contact form, here's what happens:
+
+```
+User fills form
+      ↓
+React sends POST to /api/contact
+      ↓
+FastAPI validates & saves to MongoDB
+      ↓
+Message stored with timestamp + UUID
+      ↓
+You get the message! 🎉
+```
+
+Each message stores: `name` · `email` · `subject` · `message` · `timestamp` · `id`
+
+---
+
+## 🌐 Deployment
+
+### Frontend → Vercel
+
+```bash
+# Option 1: Auto-deploy via GitHub
+# Just push to main, Vercel handles the rest
+
+# Option 2: CLI
+npm i -g vercel
+vercel --prod
+```
+
+### Backend → Railway / Render / Heroku
+
+1. Push to GitHub
+2. Connect your repo to the platform
+3. Set environment variables:
+   - `MONGO_URL`
+   - `DB_NAME`
+   - `CORS_ORIGINS` ← set to your Vercel URL
+
+---
+
+## 🎨 Color Palette
+
+```
+Background   ████  #0a0a0a    (Deep black)
+Surface      ████  rgba(255,255,255,0.05)  (Glassmorphism)
+Text         ████  #ffffff    (Pure white)
+Muted        ████  #a0a0a0    (Soft gray)
+Accent       ████  #ffffff    (White highlights)
+```
+
+---
+
+## 📜 Available Scripts
+
+| Command | Description |
+|---|---|
+| `yarn start` | Start dev server |
+| `yarn build` | Production build |
+| `yarn test` | Run test suite |
+| `python server.py` | Start FastAPI backend |
+| `uvicorn server:app --reload` | Backend with hot reload |
+
+---
+
+## 🌍 Browser Support
+
+✅ Chrome &nbsp; ✅ Firefox &nbsp; ✅ Safari &nbsp; ✅ Edge &nbsp; ✅ Mobile
+
+---
+
+## 📄 License
+
+This project is open source under the **MIT License** — fork it, hack it, make it yours.
+
+---
+
+## 🤝 Contributing
+
+Got ideas to improve this? PRs are welcome!
+
+```bash
+git checkout -b feature/cool-idea
+git commit -m "feat: add cool idea"
+git push origin feature/cool-idea
+# Open a PR 🚀
+```
+
+---
+
+<div align="center">
+
+**Made with ❤️ by [Aravinda Amarasingha](https://aravinda-amarasingha.vercel.app/)**
+
+⭐ Star this repo if it helped you · 🍴 Fork it to build your own
+
+</div>
