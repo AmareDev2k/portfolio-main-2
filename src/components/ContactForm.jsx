@@ -51,7 +51,7 @@ const ContactForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="mb-2 block text-sm font-medium text-foreground/80">
           Email
         </label>
         <input
@@ -60,13 +60,13 @@ const ContactForm = () => {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors duration-200"
+          className="w-full rounded-lg border border-primary/25 bg-[#121212]/85 px-4 py-3 text-foreground placeholder:text-foreground/40 focus:border-primary focus:outline-none transition-colors duration-200"
           placeholder="your.email@example.com"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="mb-2 block text-sm font-medium text-foreground/80">
           Message
         </label>
         <textarea
@@ -75,21 +75,21 @@ const ContactForm = () => {
           onChange={handleChange}
           required
           rows="6"
-          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors duration-200 resize-none"
+          className="w-full resize-none rounded-lg border border-primary/25 bg-[#121212]/85 px-4 py-3 text-foreground placeholder:text-foreground/40 focus:border-primary focus:outline-none transition-colors duration-200"
           placeholder="Your message..."
         ></textarea>
       </div>
 
       {status === 'success' && (
-        <div className="flex items-center space-x-3 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
-          <CheckCircle className="w-5 h-5 text-green-400" />
-          <span className="text-green-300">Message sent successfully! I'll get back to you soon.</span>
+        <div className="flex items-center space-x-3 rounded-lg border border-emerald-500/35 bg-emerald-500/10 p-4">
+          <CheckCircle className="h-5 w-5 text-emerald-400" />
+          <span className="text-emerald-300">Message sent successfully. I&apos;ll get back to you soon.</span>
         </div>
       )}
 
       {status === 'error' && (
-        <div className="flex items-center space-x-3 bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-          <AlertCircle className="w-5 h-5 text-red-400" />
+        <div className="flex items-center space-x-3 rounded-lg border border-red-500/35 bg-red-500/10 p-4">
+          <AlertCircle className="h-5 w-5 text-red-400" />
           <span className="text-red-300">Error sending message. Please try again.</span>
         </div>
       )}
@@ -97,9 +97,9 @@ const ContactForm = () => {
       <Button 
         type="submit"
         disabled={loading}
-        className="w-full bg-white text-black hover:bg-gray-200 disabled:bg-gray-400 px-8 py-4 text-lg rounded-xl transition-all duration-300 font-semibold flex items-center justify-center space-x-2"
+        className="flex w-full items-center justify-center space-x-2 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 disabled:opacity-70"
       >
-        <Send className="w-5 h-5" />
+        <Send className="h-5 w-5" />
         <span>{loading ? 'Sending...' : 'Send Message'}</span>
       </Button>
     </form>
