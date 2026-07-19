@@ -275,18 +275,6 @@ This project is open source under the **MIT License** — fork it, hack it, make
 
 ---
 
-## 🤝 Contributing
-
-Got ideas to improve this? PRs are welcome!
-
-```bash
-git checkout -b feature/cool-idea
-git commit -m "feat: add cool idea"
-git push origin feature/cool-idea
-# Open a PR 🚀
-```
-
----
 
 <div align="center">
 
