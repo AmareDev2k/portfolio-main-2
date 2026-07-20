@@ -66,6 +66,6 @@ export const personalInfo = {
   tagline: "Building Strong Fundamentals in Java, Databases & Backend Development",
   about: "I'm a dedicated software engineer with a strong foundation in Java, backend development, and system architecture. I focus on writing clean, efficient code and understanding how systems work at a deeper level. Currently expanding my skills in full-stack development with modern web technologies.",
   email: "supunaravinda2004@gmail.com",
-  github: "https://github.com/aravinda-dev2004",
+  github: "https://github.com/AmareDev2k",
   linkedin: "https://linkedin.com/in/aravinda-amarasingha-271b8020b"
 };
