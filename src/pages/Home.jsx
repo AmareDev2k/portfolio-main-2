@@ -268,7 +268,6 @@ const Home = () => {
       <footer className="border-t border-primary/20 px-6 py-8">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 text-sm text-foreground/60 md:flex-row md:items-center md:justify-between">
           <p>© 2026 {personalInfo.name}. All rights reserved.</p>
-          <p>Built with React and a premium dark-orange visual system.</p>
         </div>
       </footer>
     </main>
