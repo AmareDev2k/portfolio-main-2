@@ -15,6 +15,9 @@ module.exports = {
         fontFamily: {
             retro: ['"Share Tech Mono"', '"VT323"', 'monospace'],
         },
+        transitionTimingFunction: {
+            vanguard: 'cubic-bezier(0.32,0.72,0,1)',
+        },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

@@ -25,11 +25,11 @@ export const projects = [
   },
   {
     id: 4,
-    title: "Burger Shop v2 — IHungry",
-    description: "A Java-based burger shop management system with order processing, real-time inventory tracking, customer management, and sales reports, built for speed, reliability, and future extensibility.",
-    technologies: ["Java", "Inventory Management", "Order Processing", "Sales Reports", "System Design"],
-    category: "Management System",
-    link: "https://github.com/aravinda-dev2004/Burger-Shop-v2"
+    title: "TalentSync",
+    description: "An end-to-end recruitment portal built to streamline the hiring process. Featuring role-based access control (RBAC), advanced job filtering, real-time email notifications, and an employer dashboard.",
+    technologies: ["React", "Spring Boot", "MySQL", "RBAC", "Dashboard"],
+    category: "Fullstack Application",
+    link: "https://github.com/AmareDev2k/talentsync-fullstack"
   }
 ];
 
@@ -57,6 +57,30 @@ export const skills = [
   {
     category: "Other Skills",
     items: ["Problem Solving", "Team Collaboration", "Technical Writing", "Agile"]
+  }
+];
+
+export const education = [
+  {
+    id: 1,
+    degree: "Diploma in Software Engineering",
+    institution: "Institute of Computer Engineering Technology (iCET)",
+    period: "Jul 2025 – Jul 2026",
+    description: "Comprehensive study of software engineering principles, modern frameworks, and full-stack development."
+  },
+  {
+    id: 2,
+    degree: "Advanced certificate in Information and communication technology",
+    institution: "SIBA CAMPUS (Sri Lanka International Buddhist Academy)",
+    period: "Nov 2024 – Jan 2025",
+    description: "Foundational training in IT concepts, systems, and communication technology."
+  },
+  {
+    id: 3,
+    degree: "Course in English Language",
+    institution: "University of Colombo",
+    period: "Apr 2024 – Nov 2024",
+    description: "Advanced proficiency in professional and technical English communication."
   }
 ];
 
