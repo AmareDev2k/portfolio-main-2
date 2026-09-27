@@ -114,15 +114,15 @@ export const LogoMarquee = memo(function LogoMarquee({
   return (
     <div
       className={cn(
-        "mx-auto overflow-hidden py-4 max-w-[90vw]",
+        "mx-auto overflow-hidden py-2 sm:py-4 w-full max-w-7xl px-4",
         className,
       )}
       style={{
-        maskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)",
-        WebkitMaskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)",
+        maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+        WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
       }}
     >
-      <InfiniteSlider gap={42} reverse duration={40} durationOnHover={25}>
+      <InfiniteSlider gap={32} reverse duration={35} durationOnHover={20}>
         {[...logos, ...logos].map((logo, i) => (
           <LogoImage key={`${logo.alt}-${i}`} logo={logo} />
         ))}
