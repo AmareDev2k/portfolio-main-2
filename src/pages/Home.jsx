@@ -328,24 +328,27 @@ const Home = () => {
             </RevealItem>
           </div>
 
-          {/* Right Column: Cards matching DoubleBezelCard styling, filling the space compactly */}
-          <div className="lg:col-span-8 flex flex-col gap-5">
+          {/* Right Column: Education entries with vertical timeline and node dots aligned to main text */}
+          <div className="lg:col-span-8 relative ml-2 sm:ml-4 border-l border-white/10 space-y-10 sm:space-y-12 pb-2">
             {education.map((edu, i) => (
               <RevealItem key={edu.id} delay={i * 0.1}>
-                <DoubleBezelCard className="transition-transform duration-500 hover:-translate-y-1">
-                  <div className="flex flex-col gap-3">
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+                <div className="relative pl-6 sm:pl-10 group">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
                       <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-foreground/60">
                         <CalendarBlank weight="regular" className="h-3.5 w-3.5 text-foreground/50" />
                         <span>{edu.period}</span>
                       </div>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/70">
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-foreground/50">
                         Accredited
                       </span>
                     </div>
 
-                    <div>
-                      <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
+                    <div className="relative">
+                      {/* Glowing Timeline Node Dot aligned to main text */}
+                      <div className="absolute -left-[30px] sm:-left-[46px] top-[7px] h-3 w-3 rounded-full bg-foreground shadow-[0_0_12px_rgba(255,255,255,0.8)] ring-4 ring-background transition-transform duration-300 group-hover:scale-125" />
+
+                      <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-white">
                         {edu.degree}
                       </h3>
                       <h4 className="mt-1 flex items-center gap-2 text-sm font-medium text-foreground/70">
@@ -354,11 +357,11 @@ const Home = () => {
                       </h4>
                     </div>
 
-                    <p className="text-sm leading-relaxed text-foreground/60">
+                    <p className="text-sm sm:text-base leading-relaxed text-foreground/60 max-w-2xl">
                       {edu.description}
                     </p>
                   </div>
-                </DoubleBezelCard>
+                </div>
               </RevealItem>
             ))}
           </div>
@@ -453,28 +456,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. Contact & Footer - Grounded, centered highlight panel */}
+      {/* 6. Contact & Footer */}
       <footer id="contact" className="relative mx-auto flex min-h-[85vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-20 md:py-24 text-center">
         <RevealItem>
-          <DoubleBezelCard className="max-w-4xl mx-auto w-full">
-            <div className="py-6 sm:py-10 px-4 flex flex-col items-center">
-              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
-                Get In Touch
-              </span>
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground">
-                Let's build something <br className="hidden sm:inline" />
-                <span className="text-foreground/40">extraordinary.</span>
-              </h2>
-              <p className="mt-4 max-w-lg text-sm sm:text-base text-foreground/70">
-                Available for software engineering roles, backend architecture collaborations, and technical discussions.
-              </p>
-              <div className="mt-8 flex justify-center">
-                <IslandButton href={`mailto:${personalInfo.email}`}>
-                  {personalInfo.email}
-                </IslandButton>
-              </div>
+          <div className="flex flex-col items-center max-w-3xl mx-auto">
+            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+              Get In Touch
+            </span>
+            <h2 className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-foreground leading-[1.08]">
+              Let's build something <br className="hidden sm:inline" />
+              <span className="text-foreground/40">extraordinary.</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-base sm:text-lg text-foreground/70 leading-relaxed">
+              Available for software engineering roles, backend architecture collaborations, and technical discussions.
+            </p>
+            <div className="mt-10 flex justify-center">
+              <IslandButton href={`mailto:${personalInfo.email}`}>
+                {personalInfo.email}
+              </IslandButton>
             </div>
-          </DoubleBezelCard>
+          </div>
         </RevealItem>
         
         <RevealItem delay={0.2} className="mt-16 flex flex-col items-center justify-between border-t border-white/10 pt-8 text-sm text-foreground/40 md:flex-row">
