@@ -534,38 +534,93 @@ const Home = () => {
           </RevealItem>
         </div>
 
-        <div className="flex flex-col gap-5 sm:gap-8">
-          {projects.map((project, i) => (
-            <RevealItem key={project.id} delay={i * 0.1}>
-              <DoubleBezelCard className="transition-transform duration-500 hover:-translate-y-1">
-                <div className="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="max-w-3xl">
-                    <div className="mb-2 sm:mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-foreground">{project.title}</h3>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-foreground/70">
-                        {project.category}
-                      </span>
-                    </div>
-                    <p className="text-xs sm:text-base leading-relaxed text-foreground/70">
-                      {project.description}
-                    </p>
-                    <div className="mt-4 sm:mt-5 flex flex-wrap gap-1.5 sm:gap-2">
-                      {project.technologies.map((tech) => (
-                        <span key={tech} className="rounded-md bg-white/[0.04] border border-white/5 px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs text-foreground/70">
-                          {tech}
+        <div className="flex flex-col gap-6 sm:gap-8">
+          {projects.map((project, i) => {
+            const indexStr = String(i + 1).padStart(2, '0');
+            const totalStr = String(projects.length).padStart(2, '0');
+            const [mainTitle, subTitle] = project.title.includes('—')
+              ? project.title.split('—').map((s) => s.trim())
+              : [project.title, null];
+
+            return (
+              <RevealItem key={project.id} delay={i * 0.08}>
+                <div className="group relative rounded-2xl sm:rounded-[2rem] bg-white/[0.02] p-1.5 sm:p-2 ring-1 ring-white/[0.08] transition-all duration-500 hover:ring-white/20 hover:bg-white/[0.04]">
+                  {/* Subtle hover ambient bloom */}
+                  <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gradient-to-br from-white/[0.04] to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gradient-to-tr from-white/[0.03] to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                  <div className="relative overflow-hidden rounded-[calc(1rem+0.25rem)] sm:rounded-[calc(2rem-0.375rem)] bg-[#09090B]/95 p-6 sm:p-8 md:p-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] backdrop-blur-xl">
+                    {/* Top ambient hairline highlight */}
+                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+                    {/* Header Row: Index & Category on left, View Code on right */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-white/[0.06]">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        {/* Project Index */}
+                        <span className="font-mono text-xs sm:text-sm font-medium tracking-widest text-foreground/50">
+                          {indexStr} <span className="text-white/20">/</span> {totalStr}
                         </span>
-                      ))}
+
+                        <span className="h-3.5 w-px bg-white/10" />
+
+                        {/* Category Badge with glowing live node */}
+                        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-foreground/80">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/90 shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+                          <span>{project.category}</span>
+                        </div>
+                      </div>
+
+                      {/* Island CTA Button */}
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group/btn inline-flex items-center gap-2.5 sm:gap-3 rounded-full border border-white/10 bg-white/[0.05] pl-4 sm:pl-5 pr-2 py-1.5 text-xs sm:text-sm font-medium text-foreground transition-all duration-300 hover:border-white/25 hover:bg-white/10 active:scale-[0.98]"
+                      >
+                        <GithubLogo weight="bold" className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-foreground/70 transition-colors group-hover/btn:text-foreground" />
+                        <span>View Source</span>
+                        <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/10 text-foreground transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5">
+                          <ArrowUpRight weight="bold" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                        </span>
+                      </a>
                     </div>
-                  </div>
-                  <div className="shrink-0 pt-2 lg:pt-0">
-                    <IslandButton secondary href={project.link} className="w-full sm:w-max justify-center">
-                      View Code
-                    </IslandButton>
+
+                    {/* Project Title & Identity */}
+                    <div className="mt-5 sm:mt-6">
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <span>{mainTitle}</span>
+                        {subTitle && (
+                          <span className="text-sm sm:text-base md:text-lg font-normal text-foreground/45">
+                            — {subTitle}
+                          </span>
+                        )}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-foreground/70 max-w-4xl">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    {/* Tech Stack Pills with Microdots */}
+                    <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/[0.06]">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        {project.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 sm:px-3 py-1 sm:py-1.5 font-mono text-[11px] sm:text-xs text-foreground/75 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:text-foreground"
+                          >
+                            <span className="h-1 w-1 rounded-full bg-white/30" />
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </DoubleBezelCard>
-            </RevealItem>
-          ))}
+              </RevealItem>
+            );
+          })}
         </div>
       </section>
 
@@ -593,9 +648,11 @@ const Home = () => {
         
         <RevealItem delay={0.2} className="mt-16 sm:mt-24 flex flex-col items-center justify-between border-t border-white/10 pt-6 sm:pt-8 text-xs sm:text-sm text-foreground/40 md:flex-row gap-4">
           <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
             <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
             <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>
+            <a href={personalInfo.buyMeACoffee} target="_blank" rel="noreferrer" className="hover:text-[#FFDD00] transition-colors">Buy Me a Coffee</a>
+            <a href={personalInfo.patreon} target="_blank" rel="noreferrer" className="hover:text-[#FF858D] transition-colors">Patreon</a>
           </div>
         </RevealItem>
       </footer>

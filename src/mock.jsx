@@ -99,5 +99,7 @@ export const personalInfo = {
   about: "I'm a dedicated software engineer with a strong foundation in Java, backend development, and system architecture. I focus on writing clean, efficient code and understanding how systems work at a deeper level. Currently expanding my skills in full-stack development with modern web technologies.",
   email: "supunaravinda2004@gmail.com",
   github: "https://github.com/AmareDev2k",
-  linkedin: "https://linkedin.com/in/aravinda-amarasingha-271b8020b"
+  linkedin: "https://linkedin.com/in/aravinda-amarasingha-271b8020b",
+  buyMeACoffee: "https://buymeacoffee.com/supunaravid",
+  patreon: "https://www.patreon.com/cw/aravinda_dev2004"
 };
