@@ -25,11 +25,11 @@ export const projects = [
   },
   {
     id: 4,
-    title: "Burger Shop v2 — IHungry",
-    description: "A Java-based burger shop management system with order processing, real-time inventory tracking, customer management, and sales reports, built for speed, reliability, and future extensibility.",
-    technologies: ["Java", "Inventory Management", "Order Processing", "Sales Reports", "System Design"],
-    category: "Management System",
-    link: "https://github.com/aravinda-dev2004/Burger-Shop-v2"
+    title: "TalentSync",
+    description: "An end-to-end recruitment portal built to streamline the hiring process. Featuring role-based access control (RBAC), advanced job filtering, real-time email notifications, and an employer dashboard.",
+    technologies: ["React", "Spring Boot", "MySQL", "RBAC", "Dashboard"],
+    category: "Fullstack Application",
+    link: "https://github.com/AmareDev2k/talentsync-fullstack"
   }
 ];
 
