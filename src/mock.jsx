@@ -63,17 +63,24 @@ export const skills = [
 export const education = [
   {
     id: 1,
-    degree: "BSc (Hons) in Software Engineering",
-    institution: "University Name (Please Update)",
-    period: "2022 — Present",
-    description: "Focusing on core computer science, software architecture, and modern full-stack development."
+    degree: "Diploma in Software Engineering",
+    institution: "Institute of Computer Engineering Technology (iCET)",
+    period: "Jul 2025 – Jul 2026",
+    description: "Comprehensive study of software engineering principles, modern frameworks, and full-stack development."
   },
   {
     id: 2,
-    degree: "Advanced Level Examination",
-    institution: "High School Name (Please Update)",
-    period: "2018 — 2020",
-    description: "Completed studies in Mathematics and Science streams."
+    degree: "Advanced certificate in Information and communication technology",
+    institution: "SIBA CAMPUS (Sri Lanka International Buddhist Academy)",
+    period: "Nov 2024 – Jan 2025",
+    description: "Foundational training in IT concepts, systems, and communication technology."
+  },
+  {
+    id: 3,
+    degree: "Course in English Language",
+    institution: "University of Colombo",
+    period: "Apr 2024 – Nov 2024",
+    description: "Advanced proficiency in professional and technical English communication."
   }
 ];
 
