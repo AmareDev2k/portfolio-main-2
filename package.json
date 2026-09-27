@@ -82,6 +82,8 @@
     "@eslint/js": "9.23.0",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.4.20",
+    "baseline-browser-mapping": "^2.11.26",
+    "caniuse-lite": "^1.0.30001812",
     "eslint": "9.23.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
