@@ -15,14 +15,13 @@ import {
   Lightning,
   ShieldCheck,
   CheckCircle,
-  Eye,
-  EyeSlash,
 } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, skills, personalInfo, education } from '../mock';
 import ShapeGrid from '../components/ShapeGrid';
 import { LogoMarquee } from '../components/ui/logo-marquee';
 import WorkflowDiagram from '../components/WorkflowDiagram';
+import ProjectCard from '../components/ProjectCard';
 
 const techLogos = [
   { src: "https://cdn.21st.dev/assets/mirror/90/90f01a9537335666282ae5acc80bd4305f86d085a92d60904c3aa3ccc4414570.svg", alt: "GitHub" },
@@ -118,11 +117,6 @@ const navItems = ['home', 'about', 'workflow', 'education', 'services', 'portfol
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [revealedProjects, setRevealedProjects] = useState({});
-
-  const toggleProjectPhoto = (id) => {
-    setRevealedProjects((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -541,192 +535,25 @@ const Home = () => {
           </RevealItem>
         </div>
 
-        <div className="flex flex-col gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
           {projects.map((project, i) => {
             const indexStr = String(i + 1).padStart(2, '0');
             const totalStr = String(projects.length).padStart(2, '0');
-            const [mainTitle, subTitle] = project.title.includes('—')
-              ? project.title.split('—').map((s) => s.trim())
-              : [project.title, null];
-            const isRevealed = Boolean(revealedProjects[project.id]);
+            const isLastAndOdd = (i === projects.length - 1) && (projects.length % 2 !== 0);
 
             return (
-              <RevealItem key={project.id} delay={i * 0.08}>
-                <div
-                  className="group relative rounded-2xl sm:rounded-[2rem] bg-white/[0.02] p-1.5 sm:p-2 ring-1 ring-white/[0.08] transition-all duration-500 hover:ring-white/20 hover:bg-white/[0.04]"
-                  onClick={() => {
-                    // On mobile touch devices, clicking the card toggles the photo reveal
-                    if (project.image && typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
-                      toggleProjectPhoto(project.id);
-                    }
-                  }}
-                >
-                  {/* Subtle hover ambient bloom */}
-                  <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gradient-to-br from-white/[0.04] to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gradient-to-tr from-white/[0.03] to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                  <div className={`relative overflow-hidden rounded-[calc(1rem+0.25rem)] sm:rounded-[calc(2rem-0.375rem)] min-h-[260px] sm:min-h-[340px] p-5 sm:p-8 md:p-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] backdrop-blur-xl ${
-                    project.image ? 'border border-white/10' : 'bg-[#09090B]/95'
-                  }`}>
-                    {/* Background Project Image with B&W, Blur, and Profile Picture Hover / Mobile Tap Reveal Effect */}
-                    {project.image && (
-                      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className={`h-full w-full object-cover object-top transition-all duration-700 ease-vanguard ${
-                            isRevealed
-                              ? 'scale-105 grayscale-0 blur-none'
-                              : 'grayscale blur-md group-hover:scale-105 group-hover:grayscale-0 group-hover:blur-none'
-                          }`}
-                        />
-                        {/* Dark frosted overlay: visible at rest, smoothly fades away when revealed via hover or tap */}
-                        <div
-                          className={`absolute inset-0 bg-[#09090B]/85 transition-opacity duration-700 ease-vanguard ${
-                            isRevealed ? 'opacity-0' : 'group-hover:opacity-0'
-                          }`}
-                        />
-                        {/* Radial highlight matching profile picture */}
-                        <div
-                          className={`absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent)] transition-opacity duration-700 ${
-                            isRevealed ? 'opacity-0' : 'group-hover:opacity-0'
-                          }`}
-                        />
-                        {/* Inset shadow highlight matching profile picture */}
-                        <div className="absolute inset-0 rounded-[calc(1rem+0.25rem)] sm:rounded-[calc(2rem-0.375rem)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
-                      </div>
-                    )}
-
-                    {/* Top ambient hairline highlight */}
-                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
-
-                    {/* Pop-up Action Button when cursor goes in (or tapped on mobile) */}
-                    <div
-                      className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 flex items-center gap-2 transition-all duration-500 ease-vanguard ${
-                        isRevealed
-                          ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
-                          : 'opacity-0 scale-75 translate-y-2 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto'
-                      }`}
-                    >
-                      {/* On mobile: "Details" button to toggle details back */}
-                      {project.image && isRevealed && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleProjectPhoto(project.id);
-                          }}
-                          className="md:hidden inline-flex items-center gap-1.5 rounded-full bg-black/85 backdrop-blur-xl border border-white/20 px-3 py-1.5 text-[11px] font-medium text-white shadow-xl active:scale-95"
-                          aria-label="Show project details"
-                        >
-                          <EyeSlash weight="bold" className="h-3.5 w-3.5 text-foreground/80" />
-                          <span>Details</span>
-                        </button>
-                      )}
-
-                      {/* Popped-Up View Source Island Button */}
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="group/btn inline-flex items-center gap-2 sm:gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl pl-3.5 sm:pl-4 pr-2 py-1.5 text-xs sm:text-sm font-medium text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-white/40 hover:bg-black hover:scale-105 active:scale-95"
-                      >
-                        <GithubLogo weight="bold" className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-foreground/80 transition-colors group-hover/btn:text-white" />
-                        <span>View Source</span>
-                        <span className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-white/10 text-white transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5">
-                          <ArrowUpRight weight="bold" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                        </span>
-                      </a>
-                    </div>
-
-                    {/* Project Details Content Layer: Auto-hides on cursor hover or mobile tap, shows again when cursor leaves or toggled */}
-                    <div
-                      className={`relative z-10 transition-all duration-500 ease-vanguard ${
-                        project.image
-                          ? isRevealed
-                            ? 'opacity-0 pointer-events-none translate-y-2'
-                            : 'group-hover:opacity-0 group-hover:pointer-events-none group-hover:translate-y-2'
-                          : ''
-                      }`}
-                    >
-                      {/* Header Row: Index & Category on left */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 border-b border-white/[0.06]">
-                        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
-                          {/* Project Index */}
-                          <span className="font-mono text-xs sm:text-sm font-medium tracking-widest text-foreground/50">
-                            {indexStr} <span className="text-white/20">/</span> {totalStr}
-                          </span>
-
-                          <span className="h-3.5 w-px bg-white/10" />
-
-                          {/* Category Badge with glowing live node */}
-                          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 sm:px-3 py-1 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-foreground/80">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/90 shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
-                            <span>{project.category}</span>
-                          </div>
-
-                          {/* Mobile-only Quick Toggle to view Photo */}
-                          {project.image && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleProjectPhoto(project.id);
-                              }}
-                              className="md:hidden inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-0.5 font-mono text-[10px] text-white/90 active:scale-95 transition-all"
-                              aria-label="View photo preview"
-                            >
-                              <Eye weight="bold" className="h-3 w-3 text-emerald-400" />
-                              <span>Photo</span>
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Project Title & Identity */}
-                      <div className="mt-4 sm:mt-6">
-                        <h3 className="text-lg sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="inline-flex items-center gap-1.5 hover:text-white transition-colors group/title"
-                          >
-                            <span>{mainTitle}</span>
-                            <ArrowUpRight weight="bold" className="h-4 w-4 sm:h-5 sm:w-5 text-foreground/40 group-hover/title:text-white group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all" />
-                          </a>
-                          {subTitle && (
-                            <span className="text-xs sm:text-base md:text-lg font-normal text-foreground/45">
-                              — {subTitle}
-                            </span>
-                          )}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-foreground/70 max-w-4xl">
-                          {project.description}
-                        </p>
-                      </div>
-
-                      {/* Tech Stack Pills with Microdots */}
-                      <div className="mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-white/[0.06]">
-                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                          {project.technologies.map((tech) => (
-                            <span
-                              key={tech}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2 sm:px-3 py-1 sm:py-1.5 font-mono text-[10px] sm:text-xs text-foreground/75 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:text-foreground"
-                            >
-                              <span className="h-1 w-1 rounded-full bg-white/30" />
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <RevealItem
+                key={project.id}
+                delay={i * 0.08}
+                className={`h-full ${
+                  isLastAndOdd ? 'md:col-span-2 md:w-full md:max-w-[calc(50%-0.5rem)] lg:max-w-[calc(50%-0.75rem)] md:mx-auto' : ''
+                }`}
+              >
+                <ProjectCard
+                  project={project}
+                  indexStr={indexStr}
+                  totalStr={totalStr}
+                />
               </RevealItem>
             );
           })}
