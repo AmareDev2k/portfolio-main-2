@@ -1,31 +1,53 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Github, Linkedin, Mail, Menu, X } from 'lucide-react';
+import { ArrowUpRight, GithubLogo, LinkedinLogo, EnvelopeSimple, List, X } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, skills, personalInfo } from '../mock';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import ContactForm from '../components/ContactForm';
 
-const navItems = ['home', 'about', 'services', 'portfolio', 'contact'];
+const customEase = [0.32, 0.72, 0, 1];
 
-const sectionMotion = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-  transition: { duration: 0.55 },
-};
+const RevealItem = ({ children, delay = 0, className = "" }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 40, filter: 'blur(4px)' }}
+    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+    viewport={{ once: true, margin: '-50px' }}
+    transition={{ duration: 0.8, delay, ease: customEase }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
 
-const Section = ({ id, title, subtitle, children }) => (
-  <motion.section id={id} className="px-6 py-20 md:py-24" {...sectionMotion}>
-    <div className="mx-auto w-full max-w-6xl">
-      <div className="mb-10">
-        <p className="mb-3 text-sm uppercase tracking-[0.2em] text-primary/90">{subtitle}</p>
-        <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">{title}</h2>
-      </div>
+const DoubleBezelCard = ({ children, className = "" }) => (
+  <div className={`rounded-[2rem] bg-white/[0.02] p-1.5 ring-1 ring-white/10 ${className}`}>
+    <div className="relative h-full w-full overflow-hidden rounded-[calc(2rem-0.375rem)] bg-background/90 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-xl">
       {children}
     </div>
-  </motion.section>
+  </div>
 );
+
+const IslandButton = ({ children, href, onClick, className = "", secondary = false }) => {
+  const Component = href ? 'a' : 'button';
+  return (
+    <Component
+      href={href}
+      onClick={onClick}
+      target={href?.startsWith('http') ? '_blank' : undefined}
+      rel={href?.startsWith('http') ? 'noreferrer' : undefined}
+      className={`group flex w-max items-center gap-4 rounded-full pl-6 pr-2 py-2 text-sm font-medium transition-all duration-500 ease-vanguard active:scale-[0.98] ${
+        secondary
+          ? 'bg-white/5 text-foreground ring-1 ring-white/10 hover:bg-white/10'
+          : 'bg-primary text-primary-foreground hover:bg-white/90'
+      } ${className}`}
+    >
+      <span>{children}</span>
+      <div className={`flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-500 group-hover:-translate-y-[1px] group-hover:translate-x-1 group-hover:scale-105 ${secondary ? 'bg-white/10' : 'bg-black/10'}`}>
+        <ArrowUpRight weight="bold" className="h-4 w-4" />
+      </div>
+    </Component>
+  );
+};
+
+const navItems = ['home', 'about', 'services', 'portfolio', 'contact'];
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,22 +58,22 @@ const Home = () => {
   };
 
   return (
-    <main className="site-shell min-h-screen text-foreground">
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-primary/20 bg-[#080808]/90 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+    <main className="min-h-screen selection:bg-white/20">
+      <nav className="fixed inset-x-0 top-6 z-50 flex justify-center px-4">
+        <div className="flex w-max items-center justify-between gap-8 rounded-full bg-white/[0.03] px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-2xl">
           <button
             onClick={() => scrollToSection('home')}
-            className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
+            className="text-lg font-bold tracking-tight text-foreground"
           >
-            <span className="text-primary">a</span>ravinda
+            a.
           </button>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-6 md:flex">
             {navItems.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item)}
-                className="text-sm font-medium capitalize text-foreground/90 transition hover:text-primary"
+                className="text-xs font-medium uppercase tracking-widest text-foreground/70 transition-colors hover:text-foreground"
               >
                 {item}
               </button>
@@ -63,212 +85,205 @@ const Home = () => {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label="Toggle navigation"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <List className="h-5 w-5" />}
           </button>
         </div>
-
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="border-t border-primary/20 bg-[#080808] px-6 pb-4 pt-3 md:hidden"
-            >
-              <div className="flex flex-col gap-2">
-                {navItems.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item)}
-                    className="rounded-md px-3 py-2 text-left text-sm font-medium capitalize text-foreground/90 hover:bg-primary/10 hover:text-primary"
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
 
-      <section id="home" className="relative px-6 pb-16 pt-28 md:pb-24 md:pt-36">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_40%,rgba(255,106,0,0.24),transparent_32%),radial-gradient(circle_at_18%_10%,rgba(255,106,0,0.14),transparent_26%)]" />
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
-          <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <p className="mb-3 text-2xl font-semibold uppercase tracking-[0.2em] text-foreground/90">Hello!</p>
-            <h1 className="mb-4 text-4xl font-extrabold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-              I&apos;m <span className="text-primary">{personalInfo.name}</span>
-            </h1>
-            <p className="mb-5 text-xl font-semibold text-primary md:text-2xl">{personalInfo.title}</p>
-            <p className="mb-8 max-w-xl text-base leading-8 text-foreground/75 md:text-lg">{personalInfo.about}</p>
-
-            <div className="mb-8 flex flex-wrap items-center gap-4">
-              <Button
-                onClick={() => scrollToSection('contact')}
-                className="rounded-full bg-primary px-7 py-6 text-base font-semibold text-primary-foreground shadow-[0_8px_24px_rgba(255,106,0,0.35)] transition hover:brightness-110"
-              >
-                Let&apos;s talk
-              </Button>
-              <Button
-                onClick={() => scrollToSection('portfolio')}
-                variant="outline"
-                className="rounded-full border-primary/50 bg-transparent px-7 py-6 text-base text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary"
-              >
-                View work
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-3">
-              {[
-                { href: personalInfo.github, icon: Github, label: 'GitHub' },
-                { href: personalInfo.linkedin, icon: Linkedin, label: 'LinkedIn' },
-                { href: `mailto:${personalInfo.email}`, icon: Mail, label: 'Email' },
-              ].map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-primary/40 bg-[#111]/80 text-primary transition hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                  aria-label={social.label}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            transition={{ duration: 0.4, ease: customEase }}
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-background/95 backdrop-blur-3xl md:hidden"
+          >
+            <div className="flex flex-col items-center gap-8">
+              {navItems.map((item, i) => (
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 + 0.1, duration: 0.5, ease: customEase }}
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className="text-3xl font-medium capitalize tracking-tight text-foreground/80 hover:text-foreground"
                 >
-                  <social.icon className="h-5 w-5" />
-                </a>
+                  {item}
+                </motion.button>
               ))}
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
 
-          <motion.div
-            initial={{ opacity: 0, x: 32 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative flex justify-center lg:justify-end"
-          >
-            <div className="relative h-[280px] w-[280px] sm:h-[360px] sm:w-[360px] md:h-[430px] md:w-[430px]">
-              <div className="absolute inset-0 rounded-full bg-primary/30 blur-3xl" />
-              <div className="absolute inset-4 rounded-full bg-[radial-gradient(circle_at_30%_20%,#ff8a1f,#f15c00)]" />
-              <div className="absolute inset-5 overflow-hidden rounded-full border-2 border-primary/70 bg-[#0f0f0f] p-2">
+      <section id="home" className="relative flex min-h-[100dvh] w-full items-center justify-center px-4 pt-24">
+        <div className="absolute top-1/4 h-[500px] w-[500px] rounded-full bg-white/[0.02] blur-[120px]" />
+        
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-24">
+          <div className="flex flex-col items-start text-left">
+            <RevealItem>
+              <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+                Systems & Interfaces
+              </span>
+            </RevealItem>
+            
+            <RevealItem delay={0.1}>
+              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-foreground md:text-7xl lg:text-8xl">
+                Engineer of high-end <br className="hidden md:block" />
+                <span className="text-foreground/40">digital structures.</span>
+              </h1>
+            </RevealItem>
+            
+            <RevealItem delay={0.2}>
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-foreground/60 md:text-lg">
+                {personalInfo.about}
+              </p>
+            </RevealItem>
+            
+            <RevealItem delay={0.3} className="mt-12 flex flex-wrap items-center gap-4">
+              <IslandButton onClick={() => scrollToSection('contact')}>
+                Start a project
+              </IslandButton>
+              <IslandButton secondary onClick={() => scrollToSection('portfolio')}>
+                View selected work
+              </IslandButton>
+            </RevealItem>
+          </div>
+
+          <RevealItem delay={0.4} className="relative flex justify-center lg:justify-end">
+            <div className="relative h-[320px] w-[320px] overflow-hidden rounded-full bg-white/[0.02] p-2 ring-1 ring-white/10 md:h-[450px] md:w-[450px]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent)]" />
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-white/10 bg-[#0f0f0f]">
                 <img
                   src="/assets/my.png"
                   alt={`${personalInfo.name} portrait`}
-                  className="h-full w-full rounded-full object-cover object-top"
+                  className="h-full w-full object-cover object-top grayscale transition-all duration-700 ease-vanguard hover:scale-105 hover:grayscale-0"
                 />
+                <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]" />
               </div>
             </div>
-          </motion.div>
+          </RevealItem>
         </div>
       </section>
 
-      <Section id="about" subtitle="About" title="A developer focused on strong systems and clean interfaces">
-        <Card className="border-primary/25 bg-card/70 shadow-[0_18px_45px_rgba(0,0,0,0.32)] backdrop-blur-sm">
-          <CardContent className="grid gap-6 p-6 md:grid-cols-[2fr_1fr] md:p-10">
-            <p className="text-base leading-8 text-foreground/80 md:text-lg">{personalInfo.about}</p>
-            <div className="space-y-3 rounded-xl border border-primary/20 bg-[#101010]/70 p-5">
-              <h3 className="text-base font-semibold text-primary">Core focus</h3>
-              <p className="text-sm text-foreground/75">Java backend systems, data modeling, full-stack problem solving, and product-grade web experiences.</p>
-            </div>
-          </CardContent>
-        </Card>
-      </Section>
-
-      <Section id="services" subtitle="Services" title="What I can build for you">
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {skills.map((skillGroup) => (
-            <Card key={skillGroup.category} className="group border-primary/20 bg-card/70 transition hover:-translate-y-1 hover:border-primary/60">
-              <CardHeader>
-                <CardTitle className="text-xl text-primary">{skillGroup.category}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-foreground/80">
-                  {skillGroup.items.slice(0, 4).map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="portfolio" subtitle="Portfolio" title="Selected projects">
-        <div className="grid gap-6 md:grid-cols-2">
-          {projects.map((project) => (
-            <Card key={project.id} className="group h-full border-primary/20 bg-card/70 transition hover:border-primary/60">
-              <CardHeader>
-                <div className="mb-3 flex items-center justify-between gap-4">
-                  <CardTitle className="text-2xl text-foreground">{project.title}</CardTitle>
-                  <a
-                    href={project.link}
-                    target={project.link !== '#' ? '_blank' : undefined}
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1 rounded-full border border-primary/40 px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-primary transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                  >
-                    Open <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </div>
-                <p className="w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.12em] text-primary">
-                  {project.category}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="mb-6 text-base leading-7 text-foreground/80">{project.description}</CardDescription>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <span key={tech} className="rounded-full border border-border bg-[#121212] px-3 py-1 text-xs text-foreground/70">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="contact" subtitle="Contact" title="Let’s build something useful together">
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="border-primary/20 bg-card/70">
-            <CardContent className="p-6 md:p-8">
-              <ContactForm />
-            </CardContent>
-          </Card>
-          <Card className="border-primary/20 bg-card/70">
-            <CardContent className="space-y-6 p-6 md:p-8">
-              <div>
-                <h3 className="mb-2 text-xl font-semibold text-primary">Direct links</h3>
-                <p className="text-sm leading-7 text-foreground/75">
-                  Reach me by email or connect on GitHub and LinkedIn. I usually reply with implementation details and timeline quickly.
-                </p>
-              </div>
-              <div className="space-y-3">
+      <section id="about" className="mx-auto max-w-7xl px-4 py-32 md:py-40">
+        <div className="grid gap-12 md:grid-cols-2 md:gap-24">
+          <RevealItem>
+            <h2 className="text-3xl font-medium tracking-tight md:text-5xl">
+              Strong fundamentals.<br />
+              <span className="text-foreground/40">Flawless execution.</span>
+            </h2>
+          </RevealItem>
+          <RevealItem delay={0.1}>
+            <div className="prose prose-invert">
+              <p className="text-lg leading-relaxed text-foreground/70">
+                I specialize in building robust backend systems in Java while maintaining a strict eye for premium frontend interfaces. True engineering is invisible—it's felt in the response time of an API and the tactile feedback of a component.
+              </p>
+              <div className="mt-8 flex gap-4">
                 {[
-                  { href: `mailto:${personalInfo.email}`, label: personalInfo.email },
-                  { href: personalInfo.github, label: 'GitHub Profile' },
-                  { href: personalInfo.linkedin, label: 'LinkedIn Profile' },
-                ].map((link) => (
+                  { href: personalInfo.github, icon: GithubLogo },
+                  { href: personalInfo.linkedin, icon: LinkedinLogo },
+                  { href: `mailto:${personalInfo.email}`, icon: EnvelopeSimple },
+                ].map((social, i) => (
                   <a
-                    key={link.label}
-                    href={link.href}
-                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    key={i}
+                    href={social.href}
+                    target="_blank"
                     rel="noreferrer"
-                    className="block rounded-lg border border-primary/20 bg-[#121212]/80 px-4 py-3 text-sm text-foreground/85 transition hover:border-primary/60 hover:text-primary"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] text-foreground/70 ring-1 ring-white/10 transition-all duration-300 hover:bg-white/10 hover:text-foreground hover:ring-white/30"
                   >
-                    {link.label}
+                    <social.icon weight="regular" className="h-5 w-5" />
                   </a>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </RevealItem>
         </div>
-      </Section>
+      </section>
 
-      <footer className="border-t border-primary/20 px-6 py-8">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 text-sm text-foreground/60 md:flex-row md:items-center md:justify-between">
-          <p>© 2026 {personalInfo.name}. All rights reserved.</p>
+      <section id="services" className="mx-auto max-w-7xl px-4 py-24 md:py-32">
+        <RevealItem>
+          <h2 className="mb-16 text-3xl font-medium tracking-tight md:text-5xl">Capabilities</h2>
+        </RevealItem>
+        
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {skills.slice(0, 5).map((skillGroup, i) => (
+            <RevealItem key={skillGroup.category} delay={i * 0.05} className={i === 0 ? "md:col-span-2 lg:col-span-1" : ""}>
+              <DoubleBezelCard className="h-full">
+                <h3 className="mb-6 text-xl font-medium text-foreground">{skillGroup.category}</h3>
+                <ul className="space-y-4">
+                  {skillGroup.items.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm text-foreground/60">
+                      <div className="h-1 w-1 rounded-full bg-white/30" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </DoubleBezelCard>
+            </RevealItem>
+          ))}
         </div>
+      </section>
+
+      <section id="portfolio" className="mx-auto max-w-7xl px-4 py-32 md:py-40">
+        <RevealItem>
+          <h2 className="mb-16 text-3xl font-medium tracking-tight md:text-5xl">Selected Work</h2>
+        </RevealItem>
+
+        <div className="flex flex-col gap-8 md:gap-12">
+          {projects.map((project, i) => (
+            <RevealItem key={project.id} delay={0.1}>
+              <DoubleBezelCard>
+                <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="max-w-2xl">
+                    <div className="mb-4 flex items-center gap-4">
+                      <h3 className="text-2xl font-medium tracking-tight text-foreground md:text-3xl">{project.title}</h3>
+                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-foreground/60">
+                        {project.category}
+                      </span>
+                    </div>
+                    <p className="text-base leading-relaxed text-foreground/60 md:text-lg">
+                      {project.description}
+                    </p>
+                    <div className="mt-8 flex flex-wrap gap-2">
+                      {project.technologies.map((tech) => (
+                        <span key={tech} className="rounded-md bg-white/[0.04] px-3 py-1.5 text-xs text-foreground/70">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <IslandButton secondary href={project.link}>
+                    View Repository
+                  </IslandButton>
+                </div>
+              </DoubleBezelCard>
+            </RevealItem>
+          ))}
+        </div>
+      </section>
+
+      <footer id="contact" className="mx-auto max-w-7xl px-4 py-24 text-center md:py-32">
+        <RevealItem>
+          <h2 className="text-4xl font-medium tracking-tight md:text-6xl lg:text-7xl">
+            Let's build something <br className="hidden md:block" />
+            <span className="text-foreground/40">extraordinary.</span>
+          </h2>
+        </RevealItem>
+        <RevealItem delay={0.1} className="mt-12 flex justify-center">
+          <IslandButton href={`mailto:${personalInfo.email}`}>
+            {personalInfo.email}
+          </IslandButton>
+        </RevealItem>
+        
+        <RevealItem delay={0.2} className="mt-32 flex flex-col items-center justify-between border-t border-white/10 pt-8 text-sm text-foreground/40 md:flex-row">
+          <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
+          <div className="mt-4 flex gap-6 md:mt-0">
+            <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
+            <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>
+          </div>
+        </RevealItem>
       </footer>
     </main>
   );
