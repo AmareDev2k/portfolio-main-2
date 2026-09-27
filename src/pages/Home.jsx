@@ -10,11 +10,17 @@ import {
   Certificate,
   BookOpen,
   CalendarBlank,
+  Cpu,
+  GitBranch,
+  Lightning,
+  ShieldCheck,
+  CheckCircle,
 } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, skills, personalInfo, education } from '../mock';
 import ShapeGrid from '../components/ShapeGrid';
 import { LogoMarquee } from '../components/ui/logo-marquee';
+import WorkflowDiagram from '../components/WorkflowDiagram';
 
 const techLogos = [
   { src: "https://cdn.21st.dev/assets/mirror/90/90f01a9537335666282ae5acc80bd4305f86d085a92d60904c3aa3ccc4414570.svg", alt: "GitHub" },
@@ -25,6 +31,41 @@ const techLogos = [
   { src: "https://cdn.21st.dev/assets/mirror/fc/fc7b090ebcfc468d24a1dc482b2db1fcbfd99ca14568552a30ce553d6dda7fcb.svg", alt: "Turso" },
   { src: "https://cdn.21st.dev/assets/mirror/e8/e8514b1206f79e1abdafcc1d2632393cc7cfbcbbe25426ac5143b17b184b56b8.svg", alt: "Claude" },
   { src: "https://cdn.21st.dev/assets/mirror/bd/bdf5f3ae72bcfda892a686c03b7932985c694e9a9828643c980601bbc9e53cb4.svg", alt: "Nvidia" }
+];
+
+const workflowStages = [
+  {
+    step: "01",
+    title: "System Design & Edge Cases",
+    model: "Claude Opus",
+    icon: Cpu,
+    description: "Map system constraints (scalability, latency, maintainability) and probe for failure modes before writing architecture.",
+    deliverable: "Architecture Decision Records (ADRs)"
+  },
+  {
+    step: "02",
+    title: "Whole-Repo Context",
+    model: "Gemini 3 Pro",
+    icon: GitBranch,
+    description: "Ingest full codebases into a 1M token context window to trace global dependencies and plan cross-service refactors.",
+    deliverable: "1M Token Context Mapping"
+  },
+  {
+    step: "03",
+    title: "Rapid Scaffolding",
+    model: "GitHub Copilot",
+    icon: Lightning,
+    description: "Accelerate repetitive boilerplate, API contracts, and schema scaffolding to turn designs into working systems in hours.",
+    deliverable: "High-Speed Working Prototypes"
+  },
+  {
+    step: "04",
+    title: "Zero-Trust Verification",
+    model: "Manual + Claude",
+    icon: ShieldCheck,
+    description: "Never blindly accept AI outputs. Rigorous manual review of auth boundaries, injection risks, and cost/performance trade-offs.",
+    deliverable: "Pre-Commit Security Audit"
+  }
 ];
 
 const customEase = [0.32, 0.72, 0, 1];
@@ -71,7 +112,7 @@ const IslandButton = ({ children, href, onClick, className = "", secondary = fal
   );
 };
 
-const navItems = ['home', 'about', 'education', 'services', 'portfolio', 'contact'];
+const navItems = ['home', 'about', 'workflow', 'education', 'services', 'portfolio', 'contact'];
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -102,7 +143,7 @@ const Home = () => {
 
       {/* Floating Header Navigation */}
       <nav className="fixed inset-x-0 top-3 sm:top-6 z-50 flex justify-center px-3 sm:px-4 pointer-events-none">
-        <div className="pointer-events-auto flex w-full max-w-[calc(100vw-1.5rem)] sm:max-w-max items-center justify-between gap-4 sm:gap-8 rounded-full bg-white/[0.03] px-4 sm:px-6 py-2.5 sm:py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-2xl">
+        <div className="pointer-events-auto flex w-full max-w-[calc(100vw-1.5rem)] sm:max-w-max items-center justify-between gap-3 sm:gap-6 lg:gap-8 rounded-full bg-white/[0.03] px-4 sm:px-6 py-2.5 sm:py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-2xl">
           <button
             onClick={() => scrollToSection('home')}
             className="flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95 shrink-0"
@@ -115,14 +156,14 @@ const Home = () => {
             />
           </button>
 
-          <div className="hidden items-center gap-6 md:flex">
+          <div className="hidden items-center gap-4 sm:gap-6 md:flex">
             {navItems.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item)}
                 className="text-xs font-medium uppercase tracking-widest text-foreground/70 transition-colors hover:text-foreground"
               >
-                {item}
+                {item === 'workflow' ? 'How I Work' : item}
               </button>
             ))}
           </div>
@@ -157,7 +198,7 @@ const Home = () => {
                   onClick={() => scrollToSection(item)}
                   className="text-2xl sm:text-3xl font-medium capitalize tracking-tight text-foreground/80 hover:text-foreground"
                 >
-                  {item}
+                  {item === 'workflow' ? 'How I Work' : item}
                 </motion.button>
               ))}
             </div>
@@ -165,7 +206,7 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* 1. Hero Section - Responsive on all devices */}
+      {/* 1. Hero Section */}
       <section id="home" className="relative flex min-h-[100dvh] w-full flex-col justify-between px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 md:pt-28 pb-4 md:pb-6">
         <div className="absolute top-1/4 h-[280px] sm:h-[500px] w-[280px] sm:w-[500px] rounded-full bg-white/[0.02] blur-[100px] sm:blur-[120px] pointer-events-none" />
         
@@ -204,7 +245,7 @@ const Home = () => {
               </RevealItem>
             </div>
 
-            {/* Right Column: Profile Picture (Fluid & unclipped on all viewports) */}
+            {/* Right Column: Profile Picture */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end shrink-0 my-2 lg:my-0">
               <RevealItem delay={0.4}>
                 <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] xl:w-[380px] xl:h-[380px] shrink-0 rounded-full bg-white/[0.02] p-1.5 sm:p-2 ring-1 ring-white/10 shadow-[0_0_50px_rgba(255,255,255,0.04)]">
@@ -230,7 +271,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 2. About Section - Responsive 2-column layout */}
+      {/* 2. About Section */}
       <section id="about" className="relative mx-auto flex min-h-[85vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-5 flex flex-col items-start text-left">
@@ -296,11 +337,78 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 3. Education Section - Responsive timeline with node dots */}
+      {/* 3. Workflow Section - How I Work (AI-Augmented Architecture & High-Speed Execution) */}
+      <section id="workflow" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
+        
+        {/* Section Header */}
+        <div className="flex flex-col items-start mb-10 sm:mb-12">
+          <RevealItem>
+            <span className="mb-3 sm:mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              How I Work · Velocity &amp; Architecture
+            </span>
+          </RevealItem>
+          
+          <RevealItem delay={0.1}>
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-[1.08]">
+              High velocity. <br className="hidden sm:inline" />
+              <span className="text-foreground/40">Architectural discipline.</span>
+            </h2>
+          </RevealItem>
+          
+          <RevealItem delay={0.2}>
+            <p className="mt-4 max-w-2xl text-xs sm:text-base leading-relaxed text-foreground/70">
+              I leverage frontier AI models to accelerate system prototyping and repository-scale comprehension, while applying strict human verification to security boundaries, schema designs, and production trade-offs.
+            </p>
+          </RevealItem>
+        </div>
+
+        {/* 4-Stage Execution Pipeline */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">
+          {workflowStages.map((stage, i) => (
+            <RevealItem key={stage.step} delay={i * 0.08} className="h-full">
+              <DoubleBezelCard className="h-full transition-transform duration-500 hover:-translate-y-1.5">
+                <div className="flex flex-col h-full justify-between gap-4">
+                  <div>
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                      <span className="font-mono text-xs text-foreground/40 font-semibold">{stage.step}</span>
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-cyan-400/90 bg-cyan-400/10 px-2 py-0.5 rounded-full border border-cyan-400/20">
+                        {stage.model}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-semibold tracking-tight text-foreground flex items-center gap-2">
+                      <stage.icon weight="duotone" className="h-4 w-4 text-white/80 shrink-0" />
+                      {stage.title}
+                    </h3>
+                    
+                    <p className="mt-2 text-xs sm:text-sm leading-relaxed text-foreground/60">
+                      {stage.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-white/5">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/40 block">Output</span>
+                    <span className="text-xs font-medium text-foreground/80">{stage.deliverable}</span>
+                  </div>
+                </div>
+              </DoubleBezelCard>
+            </RevealItem>
+          ))}
+        </div>
+
+        {/* Architectural Execution Flow Diagram */}
+        <RevealItem delay={0.3} className="w-full">
+          <WorkflowDiagram />
+        </RevealItem>
+
+      </section>
+
+      {/* 4. Education Section */}
       <section id="education" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Left Column: Heading, Subhead, and Summary Badge / Quick Stats */}
+          {/* Left Column */}
           <div className="lg:col-span-4 flex flex-col items-start text-left lg:sticky lg:top-28">
             <RevealItem>
               <span className="mb-3 sm:mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
@@ -333,7 +441,7 @@ const Home = () => {
             </RevealItem>
           </div>
 
-          {/* Right Column: Education entries with vertical timeline and node dots aligned to main text */}
+          {/* Right Column: Education entries with vertical timeline */}
           <div className="lg:col-span-8 relative ml-2 sm:ml-4 border-l border-white/10 space-y-8 sm:space-y-12 pb-2">
             {education.map((edu, i) => (
               <RevealItem key={edu.id} delay={i * 0.1}>
@@ -374,7 +482,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. Capabilities (Services) Section - Responsive Grid */}
+      {/* 5. Capabilities (Services) Section */}
       <section id="services" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="flex flex-col items-start mb-8 sm:mb-10">
           <RevealItem>
@@ -411,7 +519,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Selected Work Section - Responsive project cards */}
+      {/* 6. Selected Work Section */}
       <section id="portfolio" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="flex flex-col items-start mb-8 sm:mb-10">
           <RevealItem>
@@ -461,7 +569,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. Contact & Footer - Responsive */}
+      {/* 7. Contact & Footer */}
       <footer id="contact" className="relative mx-auto flex min-h-[85vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 text-center">
         <RevealItem>
           <div className="flex flex-col items-center max-w-3xl mx-auto w-full">
