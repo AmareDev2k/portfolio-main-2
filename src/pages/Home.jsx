@@ -2,6 +2,19 @@ import React, { useState } from 'react';
 import { ArrowUpRight, GithubLogo, LinkedinLogo, EnvelopeSimple, List, X } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, skills, personalInfo, education } from '../mock';
+import ShapeGrid from '../components/ShapeGrid';
+import { LogoMarquee } from '../components/ui/logo-marquee';
+
+const techLogos = [
+  { src: "https://cdn.21st.dev/assets/mirror/90/90f01a9537335666282ae5acc80bd4305f86d085a92d60904c3aa3ccc4414570.svg", alt: "GitHub" },
+  { src: "https://cdn.21st.dev/assets/mirror/56/5624b7c243ac8d60e848fb5ea222ec932c1600df54a2762238b37498372fb0c8.svg", alt: "Vercel" },
+  { src: "https://cdn.21st.dev/assets/mirror/31/319eeae853dd1af99d442b6c16b6c38dc52a66a719f8e502c65f85d26255cbd3.svg", alt: "Supabase" },
+  { src: "https://cdn.21st.dev/assets/mirror/2b/2bcdd4124223e3bf8e66bc08ce0ac32a6cc42ffe3584bbecfd377847176a188d.svg", alt: "OpenAI" },
+  { src: "https://cdn.21st.dev/assets/mirror/96/96517bce3574d648280ff639d01d9889f354b488b3f826db5df746d730232a0c.svg", alt: "Clerk" },
+  { src: "https://cdn.21st.dev/assets/mirror/fc/fc7b090ebcfc468d24a1dc482b2db1fcbfd99ca14568552a30ce553d6dda7fcb.svg", alt: "Turso" },
+  { src: "https://cdn.21st.dev/assets/mirror/e8/e8514b1206f79e1abdafcc1d2632393cc7cfbcbbe25426ac5143b17b184b56b8.svg", alt: "Claude" },
+  { src: "https://cdn.21st.dev/assets/mirror/bd/bdf5f3ae72bcfda892a686c03b7932985c694e9a9828643c980601bbc9e53cb4.svg", alt: "Nvidia" }
+];
 
 const customEase = [0.32, 0.72, 0, 1];
 
@@ -59,6 +72,18 @@ const Home = () => {
 
   return (
     <main className="min-h-screen selection:bg-white/20">
+      <div className="fixed inset-0 z-[-1] overflow-hidden">
+        <ShapeGrid
+          speed={0.4}
+          squareSize={35}
+          direction="diagonal"
+          borderColor="rgba(255, 255, 255, 0.05)"
+          hoverFillColor="rgba(255, 255, 255, 0.1)"
+          shape="square"
+          hoverTrailAmount={2}
+        />
+      </div>
+
       <nav className="fixed inset-x-0 top-6 z-50 flex justify-center px-4">
         <div className="flex w-max items-center justify-between gap-8 rounded-full bg-white/[0.03] px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-2xl">
           <button
@@ -117,7 +142,7 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      <section id="home" className="relative flex min-h-[100dvh] w-full items-center justify-center px-4 pt-24">
+      <section id="home" className="relative flex w-full items-center justify-center px-4 pt-32 pb-16 md:pt-48 md:pb-24">
         <div className="absolute top-1/4 h-[500px] w-[500px] rounded-full bg-white/[0.02] blur-[120px]" />
         
         <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-24">
@@ -166,8 +191,12 @@ const Home = () => {
           </RevealItem>
         </div>
       </section>
+      
+      <div className="w-full py-8 md:py-12">
+        <LogoMarquee logos={techLogos} />
+      </div>
 
-      <section id="about" className="mx-auto max-w-7xl px-4 py-32 md:py-40">
+      <section id="about" className="mx-auto max-w-7xl px-4 py-16 md:py-24">
         <div className="grid gap-12 md:grid-cols-2 md:gap-24">
           <RevealItem>
             <h2 className="text-3xl font-medium tracking-tight md:text-5xl">
