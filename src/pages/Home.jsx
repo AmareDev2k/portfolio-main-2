@@ -549,71 +549,111 @@ const Home = () => {
                   <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gradient-to-br from-white/[0.04] to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gradient-to-tr from-white/[0.03] to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-                  <div className="relative overflow-hidden rounded-[calc(1rem+0.25rem)] sm:rounded-[calc(2rem-0.375rem)] bg-[#09090B]/95 p-6 sm:p-8 md:p-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] backdrop-blur-xl">
+                  <div className={`relative overflow-hidden rounded-[calc(1rem+0.25rem)] sm:rounded-[calc(2rem-0.375rem)] min-h-[300px] sm:min-h-[340px] p-6 sm:p-8 md:p-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] backdrop-blur-xl ${
+                    project.image ? 'border border-white/10' : 'bg-[#09090B]/95'
+                  }`}>
+                    {/* Background Project Image with B&W, Blur, and Profile Picture Hover Effect */}
+                    {project.image && (
+                      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="h-full w-full object-cover object-top grayscale blur-md transition-all duration-700 ease-vanguard group-hover:scale-105 group-hover:grayscale-0 group-hover:blur-none"
+                        />
+                        {/* Dark frosted overlay: visible at rest, smoothly fades away on cursor hover so photo is 100% visible */}
+                        <div className="absolute inset-0 bg-[#09090B]/85 transition-opacity duration-700 ease-vanguard group-hover:opacity-0" />
+                        {/* Radial highlight matching profile picture */}
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent)] transition-opacity duration-700 group-hover:opacity-0" />
+                        {/* Inset shadow highlight matching profile picture */}
+                        <div className="absolute inset-0 rounded-[calc(1rem+0.25rem)] sm:rounded-[calc(2rem-0.375rem)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+                      </div>
+                    )}
+
                     {/* Top ambient hairline highlight */}
-                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
 
-                    {/* Header Row: Index & Category on left, View Code on right */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-white/[0.06]">
-                      <div className="flex items-center gap-3 sm:gap-4">
-                        {/* Project Index */}
-                        <span className="font-mono text-xs sm:text-sm font-medium tracking-widest text-foreground/50">
-                          {indexStr} <span className="text-white/20">/</span> {totalStr}
-                        </span>
+                    {/* Floating View Source badge when details auto-hide on hover */}
+                    {project.image && (
+                      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-vanguard pointer-events-none group-hover:pointer-events-auto">
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20 pl-4 pr-3 py-1.5 text-xs font-medium text-white shadow-2xl hover:bg-black/90 hover:border-white/40 transition-all active:scale-95"
+                        >
+                          <GithubLogo weight="bold" className="h-3.5 w-3.5" />
+                          <span>View Source</span>
+                          <ArrowUpRight weight="bold" className="h-3 w-3" />
+                        </a>
+                      </div>
+                    )}
 
-                        <span className="h-3.5 w-px bg-white/10" />
+                    {/* Project Details Content Layer: Auto-hides on cursor hover, shows again when cursor leaves */}
+                    <div className={`relative z-10 transition-all duration-500 ease-vanguard ${
+                      project.image ? 'group-hover:opacity-0 group-hover:pointer-events-none group-hover:translate-y-2' : ''
+                    }`}>
+                      {/* Header Row: Index & Category on left, View Code on right */}
+                      <div className="flex flex-wrap items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-white/[0.06]">
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          {/* Project Index */}
+                          <span className="font-mono text-xs sm:text-sm font-medium tracking-widest text-foreground/50">
+                            {indexStr} <span className="text-white/20">/</span> {totalStr}
+                          </span>
 
-                        {/* Category Badge with glowing live node */}
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-foreground/80">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/90 shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
-                          <span>{project.category}</span>
+                          <span className="h-3.5 w-px bg-white/10" />
+
+                          {/* Category Badge with glowing live node */}
+                          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-foreground/80">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/90 shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+                            <span>{project.category}</span>
+                          </div>
                         </div>
+
+                        {/* Island CTA Button */}
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group/btn inline-flex items-center gap-2.5 sm:gap-3 rounded-full border border-white/10 bg-white/[0.05] pl-4 sm:pl-5 pr-2 py-1.5 text-xs sm:text-sm font-medium text-foreground transition-all duration-300 hover:border-white/25 hover:bg-white/10 active:scale-[0.98]"
+                        >
+                          <GithubLogo weight="bold" className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-foreground/70 transition-colors group-hover/btn:text-foreground" />
+                          <span>View Source</span>
+                          <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/10 text-foreground transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5">
+                            <ArrowUpRight weight="bold" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                          </span>
+                        </a>
                       </div>
 
-                      {/* Island CTA Button */}
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="group/btn inline-flex items-center gap-2.5 sm:gap-3 rounded-full border border-white/10 bg-white/[0.05] pl-4 sm:pl-5 pr-2 py-1.5 text-xs sm:text-sm font-medium text-foreground transition-all duration-300 hover:border-white/25 hover:bg-white/10 active:scale-[0.98]"
-                      >
-                        <GithubLogo weight="bold" className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-foreground/70 transition-colors group-hover/btn:text-foreground" />
-                        <span>View Source</span>
-                        <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/10 text-foreground transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5">
-                          <ArrowUpRight weight="bold" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                        </span>
-                      </a>
-                    </div>
+                      {/* Project Title & Identity */}
+                      <div className="mt-5 sm:mt-6">
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                          <span>{mainTitle}</span>
+                          {subTitle && (
+                            <span className="text-sm sm:text-base md:text-lg font-normal text-foreground/45">
+                              — {subTitle}
+                            </span>
+                          )}
+                        </h3>
 
-                    {/* Project Title & Identity */}
-                    <div className="mt-5 sm:mt-6">
-                      <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <span>{mainTitle}</span>
-                        {subTitle && (
-                          <span className="text-sm sm:text-base md:text-lg font-normal text-foreground/45">
-                            — {subTitle}
-                          </span>
-                        )}
-                      </h3>
+                        {/* Description */}
+                        <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-foreground/70 max-w-4xl">
+                          {project.description}
+                        </p>
+                      </div>
 
-                      {/* Description */}
-                      <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-foreground/70 max-w-4xl">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* Tech Stack Pills with Microdots */}
-                    <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/[0.06]">
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                        {project.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 sm:px-3 py-1 sm:py-1.5 font-mono text-[11px] sm:text-xs text-foreground/75 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:text-foreground"
-                          >
-                            <span className="h-1 w-1 rounded-full bg-white/30" />
-                            {tech}
-                          </span>
-                        ))}
+                      {/* Tech Stack Pills with Microdots */}
+                      <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/[0.06]">
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                          {project.technologies.map((tech) => (
+                            <span
+                              key={tech}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 sm:px-3 py-1 sm:py-1.5 font-mono text-[11px] sm:text-xs text-foreground/75 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:text-foreground"
+                            >
+                              <span className="h-1 w-1 rounded-full bg-white/30" />
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

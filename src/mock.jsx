@@ -29,7 +29,8 @@ export const projects = [
     description: "An end-to-end full-stack recruitment platform connecting job seekers with recruiting employers. Engineered with a secure Django REST Framework (DRF) backend, normalized PostgreSQL database, Simple JWT authentication, and a responsive React frontend. Features role-based access control (RBAC), employer applicant-tracking dashboards, multi-parameter job search with server-side pagination, and automated SMTP email notifications.",
     technologies: ["React", "Django", "Django REST Framework", "PostgreSQL", "Simple JWT", "RBAC", "SMTP Mail"],
     category: "Fullstack Application",
-    link: "https://github.com/AmareDev2k/talentsync-fullstack"
+    link: "https://github.com/AmareDev2k/talentsync-fullstack",
+    image: "/assets/projects/talentsync.png"
   },
   {
     id: 5,
@@ -37,7 +38,8 @@ export const projects = [
     description: "A production-grade, feature-rich school and learning management platform built with Django. Engineered with multi-role access control (Superadmin, Lecturer, Student, Parent), academic course hierarchies, automated grade calculation with PDF transcript generation, an interactive timed quiz engine, Stripe & GoPay tuition payment processing, and full multi-language internationalization (i18n).",
     technologies: ["Django", "Python", "Bootstrap 5", "Chart.js", "PostgreSQL", "Stripe API", "ReportLab"],
     category: "Fullstack Platform",
-    link: "https://github.com/AmareDev2k/Amare-edu-lms"
+    link: "https://github.com/AmareDev2k/Amare-edu-lms",
+    image: "/assets/projects/amare-edu.png"
   }
 ];
 
