@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, GithubLogo, LinkedinLogo, EnvelopeSimple, List, X } from '@phosphor-icons/react';
+import {
+  ArrowUpRight,
+  GithubLogo,
+  LinkedinLogo,
+  EnvelopeSimple,
+  List,
+  X,
+  GraduationCap,
+  Certificate,
+  BookOpen,
+  CalendarBlank,
+} from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, skills, personalInfo, education } from '../mock';
 import ShapeGrid from '../components/ShapeGrid';
@@ -20,19 +31,19 @@ const customEase = [0.32, 0.72, 0, 1];
 
 const RevealItem = ({ children, delay = 0, className = "" }) => (
   <motion.div
-    initial={{ opacity: 0, y: 40, filter: 'blur(4px)' }}
+    initial={{ opacity: 0, y: 30, filter: 'blur(4px)' }}
     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-    viewport={{ once: true, margin: '-50px' }}
-    transition={{ duration: 0.8, delay, ease: customEase }}
+    viewport={{ once: true, margin: '0px' }}
+    transition={{ duration: 0.7, delay, ease: customEase }}
     className={className}
   >
     {children}
   </motion.div>
 );
 
-const DoubleBezelCard = ({ children, className = "" }) => (
+const DoubleBezelCard = ({ children, className = "", innerClassName = "" }) => (
   <div className={`rounded-[2rem] bg-white/[0.02] p-1.5 ring-1 ring-white/10 ${className}`}>
-    <div className="relative h-full w-full overflow-hidden rounded-[calc(2rem-0.375rem)] bg-background/90 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-xl">
+    <div className={`relative h-full w-full overflow-hidden rounded-[calc(2rem-0.375rem)] bg-background/90 p-6 md:p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-xl ${innerClassName}`}>
       {children}
     </div>
   </div>
@@ -46,15 +57,15 @@ const IslandButton = ({ children, href, onClick, className = "", secondary = fal
       onClick={onClick}
       target={href?.startsWith('http') ? '_blank' : undefined}
       rel={href?.startsWith('http') ? 'noreferrer' : undefined}
-      className={`group flex w-max items-center gap-4 rounded-full pl-6 pr-2 py-2 text-sm font-medium transition-all duration-500 ease-vanguard active:scale-[0.98] ${
+      className={`group flex w-max items-center gap-3 sm:gap-4 rounded-full pl-5 sm:pl-6 pr-2 py-2 text-xs sm:text-sm font-medium transition-all duration-500 ease-vanguard active:scale-[0.98] ${
         secondary
-          ? 'bg-white/5 text-foreground ring-1 ring-white/10 hover:bg-white/10'
-          : 'bg-primary text-primary-foreground hover:bg-white/90'
+          ? 'bg-white/5 text-foreground ring-1 ring-white/10 hover:bg-white/10 hover:ring-white/20'
+          : 'bg-primary text-primary-foreground hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.15)]'
       } ${className}`}
     >
       <span>{children}</span>
-      <div className={`flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-500 group-hover:-translate-y-[1px] group-hover:translate-x-1 group-hover:scale-105 ${secondary ? 'bg-white/10' : 'bg-black/10'}`}>
-        <ArrowUpRight weight="bold" className="h-4 w-4" />
+      <div className={`flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full transition-transform duration-500 group-hover:-translate-y-[1px] group-hover:translate-x-1 group-hover:scale-105 ${secondary ? 'bg-white/10' : 'bg-black/10'}`}>
+        <ArrowUpRight weight="bold" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
       </div>
     </Component>
   );
@@ -66,12 +77,17 @@ const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 85;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
     setMobileMenuOpen(false);
   };
 
   return (
-    <main className="min-h-screen selection:bg-white/20">
+    <main className="min-h-screen selection:bg-white/20 overflow-x-hidden">
+      {/* Background shape grid */}
       <div className="fixed inset-0 z-[-1] overflow-hidden">
         <ShapeGrid
           speed={0.4}
@@ -84,11 +100,12 @@ const Home = () => {
         />
       </div>
 
+      {/* Floating Header Navigation */}
       <nav className="fixed inset-x-0 top-6 z-50 flex justify-center px-4">
         <div className="flex w-max items-center justify-between gap-8 rounded-full bg-white/[0.03] px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-2xl">
           <button
             onClick={() => scrollToSection('home')}
-            className="text-lg font-bold tracking-tight text-foreground"
+            className="text-lg font-bold tracking-tight text-foreground transition-opacity hover:opacity-80"
           >
             a.
           </button>
@@ -115,6 +132,7 @@ const Home = () => {
         </div>
       </nav>
 
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -142,130 +160,239 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      <section id="home" className="relative flex w-full items-center justify-center px-4 pt-32 pb-16 md:pt-48 md:pb-24">
-        <div className="absolute top-1/4 h-[500px] w-[500px] rounded-full bg-white/[0.02] blur-[120px]" />
+      {/* 1. Hero Section - Rock-solid 2-column layout, unclipped fixed-size profile container */}
+      <section id="home" className="relative flex min-h-[100dvh] w-full flex-col justify-between px-4 sm:px-6 lg:px-8 pt-24 pb-4 md:pt-28 md:pb-6">
+        <div className="absolute top-1/4 h-[500px] w-[500px] rounded-full bg-white/[0.02] blur-[120px] pointer-events-none" />
         
-        <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-24">
-          <div className="flex flex-col items-start text-left">
+        <div className="flex flex-1 w-full flex-col justify-center my-auto py-4">
+          <div className="mx-auto w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-12 xl:gap-16">
+            
+            {/* Left Column: Text & CTAs */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left min-w-0">
+              <RevealItem>
+                <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Systems &amp; Interfaces
+                </span>
+              </RevealItem>
+              
+              <RevealItem delay={0.1}>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-semibold leading-[1.08] tracking-tight text-foreground">
+                  Engineer of high-end <br className="hidden sm:inline" />
+                  <span className="text-foreground/40">digital structures.</span>
+                </h1>
+              </RevealItem>
+              
+              <RevealItem delay={0.2}>
+                <p className="mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-foreground/70">
+                  {personalInfo.about}
+                </p>
+              </RevealItem>
+              
+              <RevealItem delay={0.3} className="mt-8 flex flex-wrap items-center gap-4">
+                <IslandButton onClick={() => scrollToSection('contact')}>
+                  Start a project
+                </IslandButton>
+                <IslandButton secondary onClick={() => scrollToSection('portfolio')}>
+                  View selected work
+                </IslandButton>
+              </RevealItem>
+            </div>
+
+            {/* Right Column: Profile Picture (Fixed Size, Unclipped, Side-by-Side) */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end shrink-0">
+              <RevealItem delay={0.4}>
+                <div className="relative w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] xl:w-[380px] xl:h-[380px] shrink-0 rounded-full bg-white/[0.02] p-2 ring-1 ring-white/10 shadow-[0_0_50px_rgba(255,255,255,0.04)]">
+                  <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent)] pointer-events-none" />
+                  <div className="relative h-full w-full overflow-hidden rounded-full border border-white/10 bg-[#0f0f0f]">
+                    <img
+                      src="/assets/my.png"
+                      alt={`${personalInfo.name} portrait`}
+                      className="h-full w-full object-cover object-top grayscale transition-all duration-700 ease-vanguard hover:scale-105 hover:grayscale-0"
+                      loading="eager"
+                    />
+                    <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+                  </div>
+                </div>
+              </RevealItem>
+            </div>
+
+          </div>
+        </div>
+        
+        <div className="w-full pt-2 pb-2 shrink-0">
+          <LogoMarquee logos={techLogos} />
+        </div>
+      </section>
+
+      {/* 2. About Section - Cohesive 2-column layout matching Home proportions */}
+      <section id="about" className="relative mx-auto flex min-h-[85vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="lg:col-span-5 flex flex-col items-start text-left">
             <RevealItem>
-              <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
-                Systems & Interfaces
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+                Engineering Philosophy
+              </span>
+            </RevealItem>
+            <RevealItem delay={0.1}>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-foreground">
+                Strong fundamentals.<br />
+                <span className="text-foreground/40">Flawless execution.</span>
+              </h2>
+            </RevealItem>
+            <RevealItem delay={0.2}>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-foreground/70">
+                Specializing in robust backend architectures in Java while maintaining high fidelity in user interfaces.
+              </p>
+            </RevealItem>
+          </div>
+
+          <div className="lg:col-span-7">
+            <RevealItem delay={0.2}>
+              <DoubleBezelCard>
+                <div className="flex flex-col gap-6">
+                  <p className="text-base sm:text-lg leading-relaxed text-foreground/80">
+                    I specialize in building robust backend systems in Java while maintaining a strict eye for premium frontend interfaces. True engineering is invisible—it's felt in the response time of an API and the tactile feedback of a component.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 border-t border-white/10 pt-4">
+                    {["Java 17 & Spring Boot", "OOP & Clean MVC / DAO", "Relational Databases", "Modern React & Tailwind"].map((pill) => (
+                      <span key={pill} className="rounded-md bg-white/[0.04] border border-white/5 px-2.5 py-1 text-xs text-foreground/70">
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                    <span className="text-xs font-mono uppercase tracking-wider text-foreground/50">Connect with me</span>
+                    <div className="flex gap-3">
+                      {[
+                        { href: personalInfo.github, icon: GithubLogo, label: "GitHub" },
+                        { href: personalInfo.linkedin, icon: LinkedinLogo, label: "LinkedIn" },
+                        { href: `mailto:${personalInfo.email}`, icon: EnvelopeSimple, label: "Email" },
+                      ].map((social, i) => (
+                        <a
+                          key={i}
+                          href={social.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={social.label}
+                          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.03] text-foreground/70 ring-1 ring-white/10 transition-all duration-300 hover:bg-white/10 hover:text-foreground hover:ring-white/30"
+                        >
+                          <social.icon weight="regular" className="h-4 w-4" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </DoubleBezelCard>
+            </RevealItem>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Education Section - Redesigned to match Home proportions with cards, badges & 2-column split */}
+      <section id="education" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Left Column: Heading, Subhead, and Summary Badge / Quick Stats */}
+          <div className="lg:col-span-4 flex flex-col items-start text-left lg:sticky lg:top-28">
+            <RevealItem>
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+                Academic Pathway
               </span>
             </RevealItem>
             
             <RevealItem delay={0.1}>
-              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-foreground md:text-7xl lg:text-8xl">
-                Engineer of high-end <br className="hidden md:block" />
-                <span className="text-foreground/40">digital structures.</span>
-              </h1>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground">
+                Education &amp; <br />
+                <span className="text-foreground/40">Credentials.</span>
+              </h2>
             </RevealItem>
             
             <RevealItem delay={0.2}>
-              <p className="mt-8 max-w-xl text-base leading-relaxed text-foreground/60 md:text-lg">
-                {personalInfo.about}
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-foreground/70">
+                A structured engineering foundation focused on system architecture, software design patterns, and full-stack development principles.
               </p>
             </RevealItem>
-            
-            <RevealItem delay={0.3} className="mt-12 flex flex-wrap items-center gap-4">
-              <IslandButton onClick={() => scrollToSection('contact')}>
-                Start a project
-              </IslandButton>
-              <IslandButton secondary onClick={() => scrollToSection('portfolio')}>
-                View selected work
-              </IslandButton>
+
+            <RevealItem delay={0.3} className="mt-6 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-foreground/80">
+                <GraduationCap weight="duotone" className="h-4 w-4 text-white/80" />
+                3 Qualifications
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-foreground/80">
+                <BookOpen weight="duotone" className="h-4 w-4 text-white/80" />
+                Software Engineering
+              </span>
             </RevealItem>
           </div>
 
-          <RevealItem delay={0.4} className="relative flex justify-center lg:justify-end">
-            <div className="relative h-[320px] w-[320px] overflow-hidden rounded-full bg-white/[0.02] p-2 ring-1 ring-white/10 md:h-[450px] md:w-[450px]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent)]" />
-              <div className="relative h-full w-full overflow-hidden rounded-full border border-white/10 bg-[#0f0f0f]">
-                <img
-                  src="/assets/my.png"
-                  alt={`${personalInfo.name} portrait`}
-                  className="h-full w-full object-cover object-top grayscale transition-all duration-700 ease-vanguard hover:scale-105 hover:grayscale-0"
-                />
-                <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]" />
-              </div>
-            </div>
-          </RevealItem>
+          {/* Right Column: Cards matching DoubleBezelCard styling, filling the space compactly */}
+          <div className="lg:col-span-8 flex flex-col gap-5">
+            {education.map((edu, i) => (
+              <RevealItem key={edu.id} delay={i * 0.1}>
+                <DoubleBezelCard className="transition-transform duration-500 hover:-translate-y-1">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+                      <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-foreground/60">
+                        <CalendarBlank weight="regular" className="h-3.5 w-3.5 text-foreground/50" />
+                        <span>{edu.period}</span>
+                      </div>
+                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/70">
+                        Accredited
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
+                        {edu.degree}
+                      </h3>
+                      <h4 className="mt-1 flex items-center gap-2 text-sm font-medium text-foreground/70">
+                        <Certificate weight="duotone" className="h-4 w-4 text-foreground/50 shrink-0" />
+                        {edu.institution}
+                      </h4>
+                    </div>
+
+                    <p className="text-sm leading-relaxed text-foreground/60">
+                      {edu.description}
+                    </p>
+                  </div>
+                </DoubleBezelCard>
+              </RevealItem>
+            ))}
+          </div>
+
         </div>
       </section>
-      
-      <div className="w-full py-8 md:py-12">
-        <LogoMarquee logos={techLogos} />
-      </div>
 
-      <section id="about" className="mx-auto max-w-7xl px-4 py-16 md:py-24">
-        <div className="grid gap-12 md:grid-cols-2 md:gap-24">
+      {/* 4. Capabilities (Services) Section - Clean 3x2 grid of 6 categories */}
+      <section id="services" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+        <div className="flex flex-col items-start mb-10">
           <RevealItem>
-            <h2 className="text-3xl font-medium tracking-tight md:text-5xl">
-              Strong fundamentals.<br />
-              <span className="text-foreground/40">Flawless execution.</span>
-            </h2>
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+              Technical Stack
+            </span>
           </RevealItem>
           <RevealItem delay={0.1}>
-            <div className="prose prose-invert">
-              <p className="text-lg leading-relaxed text-foreground/70">
-                I specialize in building robust backend systems in Java while maintaining a strict eye for premium frontend interfaces. True engineering is invisible—it's felt in the response time of an API and the tactile feedback of a component.
-              </p>
-              <div className="mt-8 flex gap-4">
-                {[
-                  { href: personalInfo.github, icon: GithubLogo },
-                  { href: personalInfo.linkedin, icon: LinkedinLogo },
-                  { href: `mailto:${personalInfo.email}`, icon: EnvelopeSimple },
-                ].map((social, i) => (
-                  <a
-                    key={i}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] text-foreground/70 ring-1 ring-white/10 transition-all duration-300 hover:bg-white/10 hover:text-foreground hover:ring-white/30"
-                  >
-                    <social.icon weight="regular" className="h-5 w-5" />
-                  </a>
-                ))}
-              </div>
-            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground">
+              Technical <span className="text-foreground/40">Capabilities.</span>
+            </h2>
           </RevealItem>
         </div>
-      </section>
-
-      <section id="education" className="mx-auto max-w-7xl px-4 py-24 md:py-32">
-        <RevealItem>
-          <h2 className="mb-16 text-3xl font-medium tracking-tight md:text-5xl">Education</h2>
-        </RevealItem>
-        <div className="relative ml-4 space-y-12 border-l border-white/10 pb-8 md:ml-6">
-          {education.map((edu, i) => (
-            <RevealItem key={edu.id} delay={i * 0.1}>
-              <div className="relative pl-8 md:pl-12">
-                <div className="absolute left-[-5px] top-1.5 h-2.5 w-2.5 rounded-full bg-foreground shadow-[0_0_10px_rgba(255,255,255,0.5)] ring-4 ring-background" />
-                <div className="mb-3 flex flex-col gap-1">
-                  <span className="text-xs font-mono tracking-wider text-foreground/40">{edu.period}</span>
-                  <h3 className="text-xl font-medium text-foreground">{edu.degree}</h3>
-                  <h4 className="text-sm font-medium text-foreground/70">{edu.institution}</h4>
-                </div>
-                <p className="max-w-2xl text-sm leading-relaxed text-foreground/60">{edu.description}</p>
-              </div>
-            </RevealItem>
-          ))}
-        </div>
-      </section>
-
-      <section id="services" className="mx-auto max-w-7xl px-4 py-24 md:py-32">
-        <RevealItem>
-          <h2 className="mb-16 text-3xl font-medium tracking-tight md:text-5xl">Capabilities</h2>
-        </RevealItem>
         
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {skills.slice(0, 5).map((skillGroup, i) => (
-            <RevealItem key={skillGroup.category} delay={i * 0.05} className={i === 0 ? "md:col-span-2 lg:col-span-1" : ""}>
-              <DoubleBezelCard className="h-full">
-                <h3 className="mb-6 text-xl font-medium text-foreground">{skillGroup.category}</h3>
-                <ul className="space-y-4">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {skills.map((skillGroup, i) => (
+            <RevealItem key={skillGroup.category} delay={i * 0.05}>
+              <DoubleBezelCard className="h-full transition-transform duration-500 hover:-translate-y-1">
+                <h3 className="mb-4 text-lg font-semibold text-foreground tracking-tight flex items-center justify-between">
+                  <span>{skillGroup.category}</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
+                </h3>
+                <ul className="space-y-2.5">
                   {skillGroup.items.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-foreground/60">
-                      <div className="h-1 w-1 rounded-full bg-white/30" />
+                    <li key={item} className="flex items-center gap-2.5 text-sm text-foreground/70">
+                      <div className="h-1 w-1 rounded-full bg-white/40" />
                       {item}
                     </li>
                   ))}
@@ -276,37 +403,49 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="portfolio" className="mx-auto max-w-7xl px-4 py-32 md:py-40">
-        <RevealItem>
-          <h2 className="mb-16 text-3xl font-medium tracking-tight md:text-5xl">Selected Work</h2>
-        </RevealItem>
+      {/* 5. Selected Work Section - Structured project cards */}
+      <section id="portfolio" className="relative mx-auto flex min-h-[90vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+        <div className="flex flex-col items-start mb-10">
+          <RevealItem>
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+              Featured Projects
+            </span>
+          </RevealItem>
+          <RevealItem delay={0.1}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground">
+              Selected <span className="text-foreground/40">Work.</span>
+            </h2>
+          </RevealItem>
+        </div>
 
-        <div className="flex flex-col gap-8 md:gap-12">
+        <div className="flex flex-col gap-6 md:gap-8">
           {projects.map((project, i) => (
-            <RevealItem key={project.id} delay={0.1}>
-              <DoubleBezelCard>
-                <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="max-w-2xl">
-                    <div className="mb-4 flex items-center gap-4">
-                      <h3 className="text-2xl font-medium tracking-tight text-foreground md:text-3xl">{project.title}</h3>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-foreground/60">
+            <RevealItem key={project.id} delay={i * 0.1}>
+              <DoubleBezelCard className="transition-transform duration-500 hover:-translate-y-1">
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="max-w-3xl">
+                    <div className="mb-3 flex flex-wrap items-center gap-3">
+                      <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">{project.title}</h3>
+                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/70">
                         {project.category}
                       </span>
                     </div>
-                    <p className="text-base leading-relaxed text-foreground/60 md:text-lg">
+                    <p className="text-sm sm:text-base leading-relaxed text-foreground/70">
                       {project.description}
                     </p>
-                    <div className="mt-8 flex flex-wrap gap-2">
+                    <div className="mt-5 flex flex-wrap gap-2">
                       {project.technologies.map((tech) => (
-                        <span key={tech} className="rounded-md bg-white/[0.04] px-3 py-1.5 text-xs text-foreground/70">
+                        <span key={tech} className="rounded-md bg-white/[0.04] border border-white/5 px-2.5 py-1 text-xs text-foreground/70">
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <IslandButton secondary href={project.link}>
-                    View Repository
-                  </IslandButton>
+                  <div className="shrink-0 pt-2 lg:pt-0">
+                    <IslandButton secondary href={project.link}>
+                      View Code
+                    </IslandButton>
+                  </div>
                 </div>
               </DoubleBezelCard>
             </RevealItem>
@@ -314,20 +453,31 @@ const Home = () => {
         </div>
       </section>
 
-      <footer id="contact" className="mx-auto max-w-7xl px-4 py-24 text-center md:py-32">
+      {/* 6. Contact & Footer - Grounded, centered highlight panel */}
+      <footer id="contact" className="relative mx-auto flex min-h-[85vh] w-full max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 py-20 md:py-24 text-center">
         <RevealItem>
-          <h2 className="text-4xl font-medium tracking-tight md:text-6xl lg:text-7xl">
-            Let's build something <br className="hidden md:block" />
-            <span className="text-foreground/40">extraordinary.</span>
-          </h2>
-        </RevealItem>
-        <RevealItem delay={0.1} className="mt-12 flex justify-center">
-          <IslandButton href={`mailto:${personalInfo.email}`}>
-            {personalInfo.email}
-          </IslandButton>
+          <DoubleBezelCard className="max-w-4xl mx-auto w-full">
+            <div className="py-6 sm:py-10 px-4 flex flex-col items-center">
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/80">
+                Get In Touch
+              </span>
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground">
+                Let's build something <br className="hidden sm:inline" />
+                <span className="text-foreground/40">extraordinary.</span>
+              </h2>
+              <p className="mt-4 max-w-lg text-sm sm:text-base text-foreground/70">
+                Available for software engineering roles, backend architecture collaborations, and technical discussions.
+              </p>
+              <div className="mt-8 flex justify-center">
+                <IslandButton href={`mailto:${personalInfo.email}`}>
+                  {personalInfo.email}
+                </IslandButton>
+              </div>
+            </div>
+          </DoubleBezelCard>
         </RevealItem>
         
-        <RevealItem delay={0.2} className="mt-32 flex flex-col items-center justify-between border-t border-white/10 pt-8 text-sm text-foreground/40 md:flex-row">
+        <RevealItem delay={0.2} className="mt-16 flex flex-col items-center justify-between border-t border-white/10 pt-8 text-sm text-foreground/40 md:flex-row">
           <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
           <div className="mt-4 flex gap-6 md:mt-0">
             <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
