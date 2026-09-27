@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, GithubLogo, LinkedinLogo, EnvelopeSimple, List, X } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { projects, skills, personalInfo } from '../mock';
+import { projects, skills, personalInfo, education } from '../mock';
 
 const customEase = [0.32, 0.72, 0, 1];
 
@@ -47,7 +47,7 @@ const IslandButton = ({ children, href, onClick, className = "", secondary = fal
   );
 };
 
-const navItems = ['home', 'about', 'services', 'portfolio', 'contact'];
+const navItems = ['home', 'about', 'education', 'services', 'portfolio', 'contact'];
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -199,6 +199,27 @@ const Home = () => {
               </div>
             </div>
           </RevealItem>
+        </div>
+      </section>
+
+      <section id="education" className="mx-auto max-w-7xl px-4 py-24 md:py-32">
+        <RevealItem>
+          <h2 className="mb-16 text-3xl font-medium tracking-tight md:text-5xl">Education</h2>
+        </RevealItem>
+        <div className="relative ml-4 space-y-12 border-l border-white/10 pb-8 md:ml-6">
+          {education.map((edu, i) => (
+            <RevealItem key={edu.id} delay={i * 0.1}>
+              <div className="relative pl-8 md:pl-12">
+                <div className="absolute left-[-5px] top-1.5 h-2.5 w-2.5 rounded-full bg-foreground shadow-[0_0_10px_rgba(255,255,255,0.5)] ring-4 ring-background" />
+                <div className="mb-3 flex flex-col gap-1">
+                  <span className="text-xs font-mono tracking-wider text-foreground/40">{edu.period}</span>
+                  <h3 className="text-xl font-medium text-foreground">{edu.degree}</h3>
+                  <h4 className="text-sm font-medium text-foreground/70">{edu.institution}</h4>
+                </div>
+                <p className="max-w-2xl text-sm leading-relaxed text-foreground/60">{edu.description}</p>
+              </div>
+            </RevealItem>
+          ))}
         </div>
       </section>
 

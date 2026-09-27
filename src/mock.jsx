@@ -60,6 +60,23 @@ export const skills = [
   }
 ];
 
+export const education = [
+  {
+    id: 1,
+    degree: "BSc (Hons) in Software Engineering",
+    institution: "University Name (Please Update)",
+    period: "2022 — Present",
+    description: "Focusing on core computer science, software architecture, and modern full-stack development."
+  },
+  {
+    id: 2,
+    degree: "Advanced Level Examination",
+    institution: "High School Name (Please Update)",
+    period: "2018 — 2020",
+    description: "Completed studies in Mathematics and Science streams."
+  }
+];
+
 export const personalInfo = {
   name: "Aravinda Amarasingha",
   title: "Full Stack Developer | Java Specialist",
