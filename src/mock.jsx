@@ -25,34 +25,42 @@ export const projects = [
   },
   {
     id: 4,
-    title: "TalentSync",
-    description: "An end-to-end recruitment portal built to streamline the hiring process. Featuring role-based access control (RBAC), advanced job filtering, real-time email notifications, and an employer dashboard.",
-    technologies: ["React", "Spring Boot", "MySQL", "RBAC", "Dashboard"],
+    title: "TalentSync — Online Job Board & Recruitment Portal",
+    description: "An end-to-end full-stack recruitment platform connecting job seekers with recruiting employers. Engineered with a secure Django REST Framework (DRF) backend, normalized PostgreSQL database, Simple JWT authentication, and a responsive React frontend. Features role-based access control (RBAC), employer applicant-tracking dashboards, multi-parameter job search with server-side pagination, and automated SMTP email notifications.",
+    technologies: ["React", "Django", "Django REST Framework", "PostgreSQL", "Simple JWT", "RBAC", "SMTP Mail"],
     category: "Fullstack Application",
     link: "https://github.com/AmareDev2k/talentsync-fullstack"
+  },
+  {
+    id: 5,
+    title: "Amare EDU — Learning Management System",
+    description: "A production-grade, feature-rich school and learning management platform built with Django. Engineered with multi-role access control (Superadmin, Lecturer, Student, Parent), academic course hierarchies, automated grade calculation with PDF transcript generation, an interactive timed quiz engine, Stripe & GoPay tuition payment processing, and full multi-language internationalization (i18n).",
+    technologies: ["Django", "Python", "Bootstrap 5", "Chart.js", "PostgreSQL", "Stripe API", "ReportLab"],
+    category: "Fullstack Platform",
+    link: "https://github.com/AmareDev2k/Amare-edu-lms"
   }
 ];
 
 export const skills = [
   {
     category: "Languages",
-    items: ["Java", "JavaScript", "Python", "SQL"]
+    items: ["Java", "Python", "JavaScript", "SQL"]
   },
   {
     category: "Backend",
-    items: ["OOP Design", "System Architecture", "REST APIs", "FastAPI"]
+    items: ["Django / DRF", "Spring Boot", "REST APIs", "System Architecture", "OOP Design"]
   },
   {
     category: "Database",
-    items: ["Relational Databases", "SQL Queries", "Data Modeling", "MongoDB"]
+    items: ["PostgreSQL", "MySQL", "Relational Databases", "Data Modeling", "MongoDB"]
   },
   {
     category: "Frontend",
-    items: ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS"]
+    items: ["React", "JavaScript", "HTML5 & CSS3", "Tailwind CSS"]
   },
   {
     category: "Tools & Concepts",
-    items: ["Git", "Data Structures", "Algorithms", "Docker"]
+    items: ["Git & GitHub", "Docker", "Simple JWT", "Data Structures", "Algorithms"]
   },
   {
     category: "Other Skills",
