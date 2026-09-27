@@ -105,9 +105,14 @@ const Home = () => {
         <div className="flex w-max items-center justify-between gap-8 rounded-full bg-white/[0.03] px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-2xl">
           <button
             onClick={() => scrollToSection('home')}
-            className="text-lg font-bold tracking-tight text-foreground transition-opacity hover:opacity-80"
+            className="flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95"
+            aria-label="Home"
           >
-            a.
+            <img
+              src="/assets/nav_bar_icon.png"
+              alt="Aravinda logo"
+              className="h-6 w-auto object-contain mix-blend-screen"
+            />
           </button>
 
           <div className="hidden items-center gap-6 md:flex">
