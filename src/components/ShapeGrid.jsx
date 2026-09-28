@@ -167,68 +167,90 @@ const ShapeGrid = ({
         const cols = Math.ceil(canvas.width / squareSize) + 3;
         const rows = Math.ceil(canvas.height / squareSize) + 3;
 
+        // Draw hovered cells if any
+        if (cellOpacities.current.size > 0) {
+          for (let col = -2; col < cols; col++) {
+            for (let row = -2; row < rows; row++) {
+              const cellKey = `${col},${row}`;
+              const alpha = cellOpacities.current.get(cellKey);
+              if (alpha) {
+                const sx = col * squareSize + offsetX;
+                const sy = row * squareSize + offsetY;
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = hoverFillColor;
+                ctx.fillRect(sx, sy, squareSize, squareSize);
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        // Single-path batched line drawing: exact same squares, 98% fewer draw calls
+        ctx.beginPath();
+        ctx.strokeStyle = borderColor;
         for (let col = -2; col < cols; col++) {
           for (let row = -2; row < rows; row++) {
             const sx = col * squareSize + offsetX;
             const sy = row * squareSize + offsetY;
-
-            const cellKey = `${col},${row}`;
-            const alpha = cellOpacities.current.get(cellKey);
-            if (alpha) {
-              ctx.globalAlpha = alpha;
-              ctx.fillStyle = hoverFillColor;
-              ctx.fillRect(sx, sy, squareSize, squareSize);
-              ctx.globalAlpha = 1;
-            }
-
-            ctx.strokeStyle = borderColor;
-            ctx.strokeRect(sx, sy, squareSize, squareSize);
+            ctx.rect(sx, sy, squareSize, squareSize);
           }
         }
+        ctx.stroke();
       }
-
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
-      );
-      gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
-
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
-    const updateAnimation = () => {
-      const effectiveSpeed = Math.max(speed, 0.1);
-      const wrapX = isHex ? hexHoriz * 2 : squareSize;
-      const wrapY = isHex ? hexVert : isTri ? squareSize * 2 : squareSize;
+    let lastDrawTime = 0;
+    let isScrolling = false;
+    let scrollTimeout = null;
 
-      switch (direction) {
-        case 'right':
-          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + wrapX) % wrapX;
-          break;
-        case 'left':
-          gridOffset.current.x = (gridOffset.current.x + effectiveSpeed + wrapX) % wrapX;
-          break;
-        case 'up':
-          gridOffset.current.y = (gridOffset.current.y + effectiveSpeed + wrapY) % wrapY;
-          break;
-        case 'down':
-          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + wrapY) % wrapY;
-          break;
-        case 'diagonal':
-          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + wrapX) % wrapX;
-          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + wrapY) % wrapY;
-          break;
-        default:
-          break;
+    const onScroll = () => {
+      isScrolling = true;
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 100);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const updateAnimation = (timestamp) => {
+      // Throttle to 30 FPS to save CPU and battery
+      if (timestamp && timestamp - lastDrawTime < 33) {
+        requestRef.current = requestAnimationFrame(updateAnimation);
+        return;
+      }
+      lastDrawTime = timestamp || 0;
+
+      // Pause drift during active scrolling so the scroll thread runs at maximum native FPS
+      if (!isScrolling) {
+        const effectiveSpeed = Math.max(speed, 0.1);
+        const wrapX = isHex ? hexHoriz * 2 : squareSize;
+        const wrapY = isHex ? hexVert : isTri ? squareSize * 2 : squareSize;
+
+        switch (direction) {
+          case 'right':
+            gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + wrapX) % wrapX;
+            break;
+          case 'left':
+            gridOffset.current.x = (gridOffset.current.x + effectiveSpeed + wrapX) % wrapX;
+            break;
+          case 'up':
+            gridOffset.current.y = (gridOffset.current.y + effectiveSpeed + wrapY) % wrapY;
+            break;
+          case 'down':
+            gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + wrapY) % wrapY;
+            break;
+          case 'diagonal':
+            gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + wrapX) % wrapX;
+            gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + wrapY) % wrapY;
+            break;
+          default:
+            break;
+        }
+
+        updateCellOpacities();
+        drawGrid();
       }
 
-      updateCellOpacities();
-      drawGrid();
       requestRef.current = requestAnimationFrame(updateAnimation);
     };
 
@@ -405,6 +427,8 @@ const ShapeGrid = ({
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('scroll', onScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
       tryStop();
       io.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
