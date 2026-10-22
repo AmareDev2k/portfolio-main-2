@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ArrowUpRight,
   GithubLogo,
   Eye,
   EyeSlash,
+  BookOpen,
 } from '@phosphor-icons/react';
 
 export default function ProjectCard({ project, indexStr, totalStr }) {
@@ -82,20 +84,37 @@ export default function ProjectCard({ project, indexStr, totalStr }) {
             </button>
           )}
 
+          {/* Read Docs Button if available */}
+          {project.docLink && (
+            <Link
+              to={project.docLink}
+              onClick={(e) => e.stopPropagation()}
+              className="group/doc inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/80 backdrop-blur-xl pl-3 pr-1.5 py-1 text-xs font-medium text-emerald-200 shadow-[0_8px_32px_rgba(16,185,129,0.3)] transition-all duration-300 hover:border-emerald-400 hover:bg-emerald-900/90 hover:scale-105 active:scale-95"
+            >
+              <BookOpen weight="bold" className="h-3.5 w-3.5 text-emerald-300" />
+              <span>Read Docs</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-200 transition-transform duration-300 group-hover/doc:translate-x-0.5 group-hover/doc:-translate-y-0.5">
+                <ArrowUpRight weight="bold" className="h-3 w-3" />
+              </span>
+            </Link>
+          )}
+
           {/* View Source GitHub Button */}
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="group/btn inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl pl-3 sm:pl-3.5 pr-1.5 py-1 text-xs font-medium text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-white/40 hover:bg-black hover:scale-105 active:scale-95"
-          >
-            <GithubLogo weight="bold" className="h-3.5 w-3.5 text-foreground/80 transition-colors group-hover/btn:text-white" />
-            <span>View Source</span>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5">
-              <ArrowUpRight weight="bold" className="h-3 w-3" />
-            </span>
-          </a>
+          {project.link && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="group/btn inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl pl-3 sm:pl-3.5 pr-1.5 py-1 text-xs font-medium text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-white/40 hover:bg-black hover:scale-105 active:scale-95"
+            >
+              <GithubLogo weight="bold" className="h-3.5 w-3.5 text-foreground/80 transition-colors group-hover/btn:text-white" />
+              <span>View Source</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5">
+                <ArrowUpRight weight="bold" className="h-3 w-3" />
+              </span>
+            </a>
+          )}
         </div>
 
         {/* Project Details Content Layer: Auto-hides on cursor hover or mobile tap, shows again when cursor leaves or toggled */}
@@ -126,6 +145,14 @@ export default function ProjectCard({ project, indexStr, totalStr }) {
                   <span>{project.category}</span>
                 </div>
 
+                {/* New Feature Badge if present */}
+                {project.badge && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.25)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>{project.badge}</span>
+                  </span>
+                )}
+
                 {/* Mobile-only Quick Toggle to view Photo */}
                 {project.image && (
                   <button
@@ -147,16 +174,27 @@ export default function ProjectCard({ project, indexStr, totalStr }) {
             {/* Project Title & Identity */}
             <div className="mt-3 sm:mt-3.5">
               <h3 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-white flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 hover:text-white transition-colors group/title"
-                >
-                  <span>{mainTitle}</span>
-                  <ArrowUpRight weight="bold" className="h-3.5 w-3.5 text-foreground/40 group-hover/title:text-white group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all shrink-0" />
-                </a>
+                {project.docLink ? (
+                  <Link
+                    to={project.docLink}
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 hover:text-white transition-colors group/title"
+                  >
+                    <span>{mainTitle}</span>
+                    <ArrowUpRight weight="bold" className="h-3.5 w-3.5 text-foreground/40 group-hover/title:text-white group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all shrink-0" />
+                  </Link>
+                ) : (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 hover:text-white transition-colors group/title"
+                  >
+                    <span>{mainTitle}</span>
+                    <ArrowUpRight weight="bold" className="h-3.5 w-3.5 text-foreground/40 group-hover/title:text-white group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all shrink-0" />
+                  </a>
+                )}
                 {subTitle && (
                   <span className="text-xs sm:text-sm font-normal text-foreground/45">
                     — {subTitle}

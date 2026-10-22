@@ -1,6 +1,17 @@
 export const projects = [
   {
     id: 1,
+    title: "Summit Block — Privacy Ad & Tracker Blocker",
+    description: "A fast, private, open-source Chrome extension built on Manifest V3. Features native-speed network blocking via Chrome's declarativeNetRequest engine, cosmetic ad container removal, a click-to-hide element picker, zero telemetry, and granular per-site controls.",
+    technologies: ["Manifest V3", "declarativeNetRequest", "Chrome API", "JavaScript", "CSS Injection", "Open Source"],
+    category: "Browser Extension",
+    badge: "NEW",
+    link: "https://github.com/AmareDev2k/summit-block",
+    docLink: "/summit-block/doc",
+    image: "/assets/projects/summit-block.png"
+  },
+  {
+    id: 2,
     title: "Pharmaczy — Pharmacy Inventory Management",
     description: "A JavaFX desktop application for managing pharmacy operations including medicines, stock batches, suppliers, sales, and billing, built with Java 17, Maven, and MySQL using a clean MVC architecture.",
     technologies: ["Java 17", "JavaFX", "Maven", "MySQL", "MVC"],
@@ -8,7 +19,7 @@ export const projects = [
     link: "https://github.com/aravinda-dev2004/Pharmaczy-JavaFx-CW"
   },
   {
-    id: 2,
+    id: 3,
     title: "Thoga Kade — POS System",
     description: "A comprehensive point of sale application for grocery store management featuring customer management, item inventory, real-time order processing, and transaction history using Java and MySQL with layered architecture (DAO pattern).",
     technologies: ["Java", "MySQL", "Layered Architecture", "DAO Pattern", "POS"],
@@ -16,7 +27,7 @@ export const projects = [
     link: "https://github.com/aravinda-dev2004/Thoga-Kade"
   },
   {
-    id: 3,
+    id: 4,
     title: "Customer Service API",
     description: "A RESTful backend built with Spring Boot for managing customer data, featuring full CRUD operations, Swagger UI documentation, a Thymeleaf frontend, and a responsive Bootstrap 5 interface.",
     technologies: ["Spring Boot", "REST API", "Swagger UI", "Thymeleaf", "Bootstrap 5"],
@@ -24,7 +35,7 @@ export const projects = [
     link: "https://github.com/aravinda-dev2004/customer-sv"
   },
   {
-    id: 4,
+    id: 5,
     title: "TalentSync — Online Job Board & Recruitment Portal",
     description: "An end-to-end full-stack recruitment platform connecting job seekers with recruiting employers. Engineered with a secure Django REST Framework (DRF) backend, normalized PostgreSQL database, Simple JWT authentication, and a responsive React frontend. Features role-based access control (RBAC), employer applicant-tracking dashboards, multi-parameter job search with server-side pagination, and automated SMTP email notifications.",
     technologies: ["React", "Django", "Django REST Framework", "PostgreSQL", "Simple JWT", "RBAC", "SMTP Mail"],
@@ -33,7 +44,7 @@ export const projects = [
     image: "/assets/projects/talentsync.png"
   },
   {
-    id: 5,
+    id: 6,
     title: "Amare EDU — Learning Management System",
     description: "A production-grade, feature-rich school and learning management platform built with Django. Engineered with multi-role access control (Superadmin, Lecturer, Student, Parent), academic course hierarchies, automated grade calculation with PDF transcript generation, an interactive timed quiz engine, Stripe & GoPay tuition payment processing, and full multi-language internationalization (i18n).",
     technologies: ["Django", "Python", "Bootstrap 5", "Chart.js", "PostgreSQL", "Stripe API", "ReportLab"],
