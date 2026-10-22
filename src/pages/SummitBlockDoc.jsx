@@ -27,6 +27,8 @@ import {
   X,
   CaretRight,
   Sparkle,
+  DownloadSimple,
+  WindowsLogo,
 } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -219,7 +221,7 @@ export default function SummitBlockDoc() {
                 Summit Block
               </span>
               <span className="hidden md:inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-300">
-                Docs v1.0
+                Docs v1.1.0
               </span>
             </div>
           </div>
@@ -233,17 +235,26 @@ export default function SummitBlockDoc() {
               className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-foreground/80 hover:text-white hover:border-white/25 hover:bg-white/[0.08] transition-all"
             >
               <GithubLogo weight="bold" className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">GitHub Repository</span>
+              <span className="hidden sm:inline">GitHub</span>
               <ArrowUpRight weight="bold" className="h-3 w-3 text-white/40" />
             </a>
 
             <button
               type="button"
               onClick={() => scrollTo('installation')}
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:text-white px-3 py-1.5 text-xs font-medium text-foreground/80 transition-all"
+            >
+              <Browsers weight="bold" className="h-3.5 w-3.5" />
+              <span>Install Guide</span>
+            </button>
+
+            <a
+              href="https://github.com/AmareDev2k/summit-block/releases/download/v1.1.0/Summit-Block-Setup-v1.1.0.exe"
               className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/90 hover:bg-emerald-400 text-black px-3.5 py-1.5 text-xs font-semibold shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all active:scale-95"
             >
-              <span>Install Extension</span>
-            </button>
+              <DownloadSimple weight="bold" className="h-3.5 w-3.5" />
+              <span>Download v1.1.0</span>
+            </a>
 
             {/* Mobile menu trigger */}
             <button
@@ -417,13 +428,20 @@ export default function SummitBlockDoc() {
 
                 {/* Primary Quick CTA buttons */}
                 <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <a
+                    href="https://github.com/AmareDev2k/summit-block/releases/download/v1.1.0/Summit-Block-Setup-v1.1.0.exe"
+                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black px-5 py-3 text-sm font-semibold shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all active:scale-95 group"
+                  >
+                    <DownloadSimple weight="bold" className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+                    <span>Download Installer (.exe v1.1.0)</span>
+                  </a>
                   <button
                     type="button"
                     onClick={() => scrollTo('installation')}
-                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black px-5 py-3 text-sm font-semibold shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all active:scale-95"
+                    className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] hover:bg-white/10 text-white px-5 py-3 text-sm font-medium transition-all"
                   >
                     <Browsers weight="bold" className="h-4 w-4" />
-                    <span>Get Started & Install</span>
+                    <span>Manual Extension Setup</span>
                   </button>
                   <a
                     href="https://github.com/AmareDev2k/summit-block"
@@ -523,8 +541,49 @@ export default function SummitBlockDoc() {
                   <span>Quick Start & Browser Activation</span>
                 </h2>
                 <p className="text-xs sm:text-sm text-foreground/60 mt-1">
-                  Step-by-step developer installation guide for Google Chrome, Brave Browser, Microsoft Edge, and Opera.
+                  Download the automated Windows installer or load the unpacked developer extension in Chrome, Brave, Edge, and Opera.
                 </p>
+              </div>
+
+              {/* Direct Executable Release Card */}
+              <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/40 via-emerald-900/10 to-transparent p-5 sm:p-6 backdrop-blur-xl relative overflow-hidden shadow-[0_0_30px_rgba(16,185,129,0.08)]">
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none" />
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div className="space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-300">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Release v1.1.0
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[11px] font-mono text-foreground/70">
+                        <WindowsLogo weight="bold" className="h-3.5 w-3.5 text-cyan-400" /> Windows (.exe)
+                      </span>
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                      Summit Block Windows Setup Installer
+                    </h3>
+                    <p className="text-xs text-foreground/75 max-w-xl leading-relaxed">
+                      Download the standalone executable setup for Windows. Installs the extension package, registers required local policies, and enables Manifest V3 blocking with a single click.
+                    </p>
+                  </div>
+
+                  <div className="shrink-0">
+                    <a
+                      href="https://github.com/AmareDev2k/summit-block/releases/download/v1.1.0/Summit-Block-Setup-v1.1.0.exe"
+                      className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black px-5 py-3 text-xs sm:text-sm font-semibold shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all active:scale-95 group"
+                    >
+                      <DownloadSimple weight="bold" className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+                      <span>Download Summit-Block-Setup-v1.1.0.exe</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 flex items-center gap-3">
+                <span className="text-xs font-mono uppercase tracking-wider text-foreground/50">
+                  Manual Installation (Developer Mode)
+                </span>
+                <div className="h-px flex-1 bg-white/[0.06]" />
               </div>
 
               {/* Browser selector tabs */}
@@ -898,7 +957,7 @@ export default function SummitBlockDoc() {
                   <div className="text-xs font-semibold text-white">4. Generate production package for Chrome Web Store</div>
                   <CodeBlock
                     code="bash scripts/package.sh"
-                    caption="Creates store-ready archive in dist/summit-block-v1.0.0.zip"
+                    caption="Creates store-ready archive in dist/summit-block-v1.1.0.zip"
                   />
                 </div>
 
